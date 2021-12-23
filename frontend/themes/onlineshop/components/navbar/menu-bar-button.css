@@ -1,0 +1,9 @@
+:host {
+    background: hsl(0, 27%, 50%);
+    color: white;
+    margin-top: 30px;
+}
+:host(:hover) {
+    opacity: 90%;
+    cursor: pointer;
+}

@@ -43,7 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage(LOGIN_URL).permitAll()
                 .loginProcessingUrl(LOGIN_PROCESSING_URL)
-                .successHandler(ProjectManagerAuthenticationSuccessHandler())
+                .successHandler(OnlineshopUrlAuthenticationSuccessHandler())
                 .failureUrl(LOGIN_FAILURE_URL)
                 .and()
                 .logout()
@@ -58,7 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      * @return  ProjectManagerUrlAuthenticationSuccessHandler
      */
     @Bean
-    public AuthenticationSuccessHandler ProjectManagerAuthenticationSuccessHandler(){
+    public AuthenticationSuccessHandler OnlineshopUrlAuthenticationSuccessHandler(){
         return new OnlineshopUrlAuthenticationSuccessHandler();
     }
 

@@ -1,0 +1,16 @@
+.iconSunMoon{
+    height: 30px;
+    width: 30px;
+}
+
+.themeButtonPosition {
+
+}
+
+#buttonLightMode{
+    color:black;
+}
+
+#buttonDarkMode{
+    color:  #f1c40f ;
+}

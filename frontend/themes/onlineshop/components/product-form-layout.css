@@ -1,0 +1,8 @@
+#test{
+    border: 1px solid hsl(214, 90%, 52%);
+    border-radius: 10px;
+    width: 1000px;
+    height: 500px;
+    margin: auto;
+    margin-top: 50px;
+}

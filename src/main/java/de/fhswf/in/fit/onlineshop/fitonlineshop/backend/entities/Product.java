@@ -101,6 +101,10 @@ public class Product {
         return categories;
     }
 
+    public String getMainCategory(){
+        return categories.stream().findFirst().get().getCategoryType().label;
+    }
+
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
