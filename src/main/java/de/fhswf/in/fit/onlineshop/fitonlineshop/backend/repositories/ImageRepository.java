@@ -1,6 +1,6 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.repositories;
 
-import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Image;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.ProductImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
@@ -13,5 +13,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author Ivonne Kneißig & Ramon Günther
  */
-public interface ImageRepository extends JpaRepository<Image, Long> {
+public interface ImageRepository extends JpaRepository<ProductImage, Long> {
 }

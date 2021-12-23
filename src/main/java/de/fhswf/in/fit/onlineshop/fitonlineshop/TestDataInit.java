@@ -1,13 +1,22 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop;
 
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.server.StreamResource;
+import com.vaadin.flow.server.VaadinService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.*;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.enums.CategoryType;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.enums.ImageType;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.primaryKeys.OrderedProductKey;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.*;
+import org.apache.catalina.webresources.FileResource;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Die Klasse TestDataInit erstellt die Beispieldaten für die Anwendung
@@ -53,6 +62,13 @@ public class TestDataInit {
         Product smartphone1 = new Product("Samsung Galaxy S21 Ultra 5G", 1299.00, 10, "Krasses Handy");
         smartphone1.addCategory(categorySmartphone);
         smartphone1.addCategory(categoryTechnik);
+        ProductImage productImage1 = new ProductImage(
+                "Samsung S21 Ulta 1",
+                ImageType.JPEG,
+                smartphone1);
+        productImage1.setImage("01_s21ultra.jpeg");
+        imageService.saveImage(productImage1);
+        smartphone1.addImage(productImage1);
         productService.saveProduct(smartphone1);
         categorySmartphone.addProduct(smartphone1);
 
@@ -185,5 +201,47 @@ public class TestDataInit {
         userService.saveUser(user);
 
         System.out.println("Testuser Bestellung zugeordnet und User aktualisiert");
+
+
+
+//        InputStream stream = getFileFromResourceAsStream("images/01_s21ultra.jpeg");
+
+
+
+//        byte[] imageBytes = getImageAsByteArray("images/01_s21ultra.jpeg");
+//        StreamResource resource = new StreamResource("01_s21ultra.jpeg", () -> new ByteArrayInputStream(smartphone1.getImages().stream().toList().get(0).getData()));
+//        StreamResource resource = new StreamResource("01_s21ultra.jpeg", () -> getClass().getResourceAsStream("/images/01_s21ultra.jpeg"));
+//
+//        Image image = new Image(resource,"Image from file");
+
     }
+
+//    In ImageEntity als setter hinzugefügt
+//        private byte[] getImageAsByteArray(String imageFile) {
+//            try {
+//                return IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream(imageFile));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return null;
+//            }
+//        }
+
+
 }
+
+//    private InputStream getFileFromResourceAsStream(String fileName) {
+//
+//        // The class loader that loaded the class
+//        ClassLoader classLoader = getClass().getClassLoader();
+//        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+//
+//        // the stream holding the file content
+//        if (inputStream == null) {
+//            throw new IllegalArgumentException("file not found! " + fileName);
+//        } else {
+//            System.out.println(inputStream);
+//            return inputStream;
+//        }
+//
+//    }
+

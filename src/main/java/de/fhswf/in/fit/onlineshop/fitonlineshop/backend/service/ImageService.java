@@ -1,6 +1,6 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service;
 
-import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Image;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.ProductImage;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.repositories.ImageRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +19,12 @@ public class ImageService {
         this.imageRepository = imageRepository;
     }
 
-    public void saveImage(Image image){
-        imageRepository.save(image);
+    public void saveImage(ProductImage productImage){
+        imageRepository.save(productImage);
     }
 
-    public Image getImagebyId(Long id){
+    public ProductImage getImagebyId(Long id){
         return imageRepository.getById(id);
     }
+
 }

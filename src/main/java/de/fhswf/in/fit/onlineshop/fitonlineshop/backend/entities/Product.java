@@ -22,7 +22,7 @@ public class Product {
     private Double price;
 
     @ManyToMany
-    private Set<Image> images;
+    private Set<ProductImage> productImages;
 
     @ManyToMany (mappedBy = "products")
     private Set<Category> categories;
@@ -33,13 +33,13 @@ public class Product {
 
     public Product(String name,
                    Double price,
-                   Set<Image> images,
+                   Set<ProductImage> productImages,
                    Set<Category> categories,
                    int inStock,
                    String description) {
         this.name = name;
         this.price = price;
-        this.images = images;
+        this.productImages = productImages;
         this.categories = categories;
         this.inStock = inStock;
         this.description = description;
@@ -50,12 +50,12 @@ public class Product {
         this.price = price;
         this.inStock = inStock;
         this.description = description;
-        this.images = new HashSet<>();
+        this.productImages = new HashSet<>();
         this.categories = new HashSet<>();
     }
 
     public Product() {
-        this.images = new HashSet<>();
+        this.productImages = new HashSet<>();
         this.categories = new HashSet<>();
     }
 
@@ -83,12 +83,12 @@ public class Product {
         this.price = price;
     }
 
-    public Set<Image> getImages() {
-        return images;
+    public Set<ProductImage> getImages() {
+        return productImages;
     }
 
-    public void setImages(Set<Image> images) {
-        this.images = images;
+    public void setImages(Set<ProductImage> productImages) {
+        this.productImages = productImages;
     }
 
     public Set<Category> getCategories() {
@@ -99,8 +99,8 @@ public class Product {
         this.categories = categories;
     }
 
-    public void addImage(Image image){
-        this.images.add(image);
+    public void addImage(ProductImage productImage){
+        this.productImages.add(productImage);
     }
 
     public void addCategory(Category category){
