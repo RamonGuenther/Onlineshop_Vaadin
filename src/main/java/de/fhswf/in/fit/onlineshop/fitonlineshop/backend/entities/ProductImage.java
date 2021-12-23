@@ -3,9 +3,11 @@ package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.server.StreamResource;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.enums.ImageType;
-import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.views.LoginView;
+import org.apache.commons.io.IOUtils;
 
 import javax.persistence.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,19 +26,17 @@ public class ProductImage {
 
     private String name;
 
-//    @Lob
-//    private byte[] data;
-    @Column(length = 10000)
-    private Image image;
+    @Lob
+    private byte[] data;
 
     private ImageType type;
 
     @ManyToMany (mappedBy = "productImages")
     private Set<Product> products;
 
-    public ProductImage(String name, Image image, ImageType type, Set<Product> product) {
+    public ProductImage(String name, byte[] data, ImageType type, Set<Product> product) {
         this.name = name;
-        this.image = image;
+        this.data = data;
         this.type = type;
         this.products = product;
     }
@@ -67,17 +67,20 @@ public class ProductImage {
         this.name = name;
     }
 
-    public Image getImage() {
-        return image;
+    public byte[] getData() {
+        return data;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
-    public void setImage(String imageFile){
-        StreamResource resource = new StreamResource(imageFile, () -> ProductImage.class.getClassLoader().getResourceAsStream("images/" + imageFile));
-        this.image = new Image(resource,"Image from file");
+    public void setData(String imageFile){
+        try {
+            data = IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream("images/" + imageFile));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public ImageType getType() {
@@ -98,5 +101,16 @@ public class ProductImage {
 
     public void addProduct(Product product){
         products.add(product);
+    }
+
+    /**
+     * Die Methode getVaadinImage wandelt das byte-Array in ein
+     * Vaadin-Image um.
+     *
+     * @return Produktbild als Vaadin-Image
+     */
+    public Image getVaadinImage(){
+        StreamResource resource = new StreamResource(name, () -> new ByteArrayInputStream(data));
+        return new Image(resource, name);
     }
 }

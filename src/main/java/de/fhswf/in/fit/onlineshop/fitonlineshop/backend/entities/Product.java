@@ -1,7 +1,13 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities;
 
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.server.StreamResource;
+
 import javax.persistence.*;
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -121,6 +127,24 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * Die Methode getVaadinImageList wandelt das Set von ProductImages in eine
+     * Liste mit Images von Vaadin um.
+     *
+     * @return  Liste mit Produkt-Images
+     */
+    public List<Image> getVaadinImageList(){
+        List<Image> list = new ArrayList<>();
+        Image image = new Image();
+        for(ProductImage productImage: productImages){
+            StreamResource resource = new StreamResource(productImage.getName(), () -> new ByteArrayInputStream(productImage.getData()));
+            image.setSrc(resource);
+            image.setAlt(productImage.getName());
+            list.add(image);
+        }
+        return list;
     }
 
 }

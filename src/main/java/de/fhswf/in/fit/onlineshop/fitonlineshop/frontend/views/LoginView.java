@@ -8,6 +8,8 @@ import com.vaadin.flow.server.StreamResource;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Product;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.ProductService;
 
+import java.io.ByteArrayInputStream;
+
 /**
  * Die Klasse LoginView erstellt den Login der Applikation.
  * Es wird die Standard-Login-View von Vaadin verwendet.
@@ -22,8 +24,6 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private LoginForm login;
 
     private ProductService productService;
-    private Product product;
-    private Image image;
 
     public LoginView(ProductService productService) {
         addClassName("login-view");
@@ -35,10 +35,10 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         login = new LoginForm();
         login.setAction("login");
 
+//        Image image = productService.getProductById(3L).getVaadinImageList().get(1);
+//        add(image);
 
-
-
-        add(login, image);
+        add(login);
     }
 
     @Override
@@ -49,7 +49,5 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
                 .containsKey("error")) {
             login.setError(true);
         }
-        Product product = productService.getProductById(1L);
-        this.image = product.getImages().stream().toList().get(0).getImage();
     }
 }
