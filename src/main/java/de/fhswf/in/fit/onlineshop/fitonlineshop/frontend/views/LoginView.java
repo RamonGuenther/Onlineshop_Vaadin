@@ -23,10 +23,10 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private LoginForm login;
 
-    private ProductService productService;
 
-    public LoginView(ProductService productService) {
-        addClassName("login-view");
+    public LoginView() {;
+        getElement().getStyle().set("background", "hsl(0, 36%, 39%)");
+
         setSizeFull();
 
         setJustifyContentMode(JustifyContentMode.CENTER);
@@ -35,8 +35,6 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         login = new LoginForm();
         login.setAction("login");
 
-//        Image image = productService.getProductById(3L).getVaadinImageList().get(1);
-//        add(image);
 
         add(login);
     }

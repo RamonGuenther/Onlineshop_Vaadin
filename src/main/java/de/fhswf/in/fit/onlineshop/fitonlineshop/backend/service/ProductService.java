@@ -41,4 +41,13 @@ public class ProductService {
     public List<Product> findByCategory(Category category){
         return productRepository.findAllByCategoriesIsContaining(category);
     }
+
+    public List<Product> productFilter(String filterText) {
+        if (filterText == null || filterText.isEmpty()) {
+            return productRepository.findAll(); //wenn filterText leer zeige Alles an
+        } else {
+            return productRepository.findAllByName(filterText); //ansonsten suche nach dem Datensatz
+        }
+    }
+
 }

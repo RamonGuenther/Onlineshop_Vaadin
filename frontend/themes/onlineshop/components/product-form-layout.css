@@ -1,8 +1,44 @@
-#test{
-    border: 1px solid hsl(214, 90%, 52%);
-    border-radius: 10px;
-    width: 1000px;
-    height: 500px;
+#product-form-layout-form_layout{
+    width: 450px;
+}
+
+#product-form-layout-product_name{
+    font-weight: bold;
+}
+
+#product-form-layout-label_failure{
+    font-size: x-large;
+}
+
+#product-form-layout-icon_failure{
+    height: 30px;
+    width: 30px;
+    margin-top: 5px;
+}
+
+.product-form-layout-failure_layout{
     margin: auto;
-    margin-top: 50px;
+}
+
+#product-form-layout-product_image{
+    width: 165px;
+    height: 200px;
+
+}
+
+.product-form-layout-product_card{
+    border: 1px solid hsl(0, 35%, 36%);
+    border-radius: 5px;
+    width: 800px;
+    height: 250px;
+    margin: 50px auto auto;
+    padding: 10px;
+}
+
+.product-form-layout-badge_layout{
+    margin-top: 70px;
+}
+
+#product-form-layout-details_button{
+    color: hsl(0, 35%, 36%)
 }

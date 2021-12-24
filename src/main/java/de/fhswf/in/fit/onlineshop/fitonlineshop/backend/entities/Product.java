@@ -2,6 +2,7 @@ package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities;
 
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.server.StreamResource;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.enums.CategoryType;
 
 import javax.persistence.*;
 import java.io.ByteArrayInputStream;
@@ -19,8 +20,9 @@ import java.util.Set;
 @Entity
 public class Product {
 
+    @TableGenerator(name = "test", initialValue = 10000, allocationSize = 100)
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY, generator = "test")
     private Long id;
 
     private String name;
@@ -149,6 +151,15 @@ public class Product {
             list.add(image);
         }
         return list;
+    }
+
+    public List<CategoryType> getCategorieEnums(){
+        System.out.println(categories.size());
+        List<CategoryType> categoryTypeList = new ArrayList<>();
+        for(Category category: categories){
+            categoryTypeList.add(category.getCategoryType());
+        }
+        return categoryTypeList;
     }
 
 }

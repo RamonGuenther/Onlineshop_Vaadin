@@ -1,5 +1,8 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Das Enum CategoryType enthält alle möglichen Kategorien, denen die
  * Produkte des Onlineshops angehören können.
@@ -25,4 +28,5 @@ public enum CategoryType {
     CategoryType(String label) {
         this.label = label;
     }
+
 }

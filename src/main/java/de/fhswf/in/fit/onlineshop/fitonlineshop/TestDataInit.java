@@ -37,6 +37,7 @@ public class TestDataInit {
     @PostConstruct
     private void initTestData(){
 
+        //TODO: Die Kategorien werden falsch gespeichert , Mit den Bildern stimmt irgendwas nicht
         Category categoryTechnik = new Category(CategoryType.TECHNIK, "In der Kategorie Technik ist alles mögliche an Elektrogeräten zu finden.");
         Category categoryComputer = new Category(CategoryType.COMPUTER, "Stand-Pc, Laptops, Notebooks, Chromebooks und vieles mehr. Außerdem alles an Teilen, was du brauchst um die deinen eigenen PC zu bauen :)");
         Category categorySmartphone = new Category(CategoryType.SMARTPHONES, "Smartphones verschiedenster Marken.");
