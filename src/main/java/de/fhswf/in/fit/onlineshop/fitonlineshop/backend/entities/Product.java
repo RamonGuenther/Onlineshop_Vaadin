@@ -32,7 +32,7 @@ public class Product {
     @ManyToMany
     private Set<ProductImage> productImages;
 
-    @ManyToMany (mappedBy = "products")
+    @ManyToMany
     private Set<Category> categories;
 
     private int inStock;

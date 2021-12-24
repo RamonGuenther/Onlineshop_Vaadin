@@ -1,6 +1,7 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.repositories;
 
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Category;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.enums.CategoryType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
@@ -14,4 +15,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Ivonne Kneißig & Ramon Günther
  */
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+
+    Category getCategoryByCategoryType(CategoryType categoryType);
 }

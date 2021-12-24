@@ -54,6 +54,7 @@ public class ProductView extends VerticalLayout {
 
         //TODO: Kategorie Tabs einbauen wie Badge mechanik und anhand dessen die Cards generieren, Filter im repository mit Spring statt query umändern!
 
+        //TODO: Detailsiete Bilder button drauf und zeigt das nächste Bild aus der Liste an bin ich am Ende beginne von vorne
         List<Product> productList = productService.findAllProducts();
 
 //        Tabs tabs = new Tabs();

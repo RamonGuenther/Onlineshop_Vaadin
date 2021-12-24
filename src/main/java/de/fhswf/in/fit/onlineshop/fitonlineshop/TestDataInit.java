@@ -37,7 +37,6 @@ public class TestDataInit {
     @PostConstruct
     private void initTestData(){
 
-        //TODO: Die Kategorien werden falsch gespeichert , Mit den Bildern stimmt irgendwas nicht
         Category categoryTechnik = new Category(CategoryType.TECHNIK, "In der Kategorie Technik ist alles mögliche an Elektrogeräten zu finden.");
         Category categoryComputer = new Category(CategoryType.COMPUTER, "Stand-Pc, Laptops, Notebooks, Chromebooks und vieles mehr. Außerdem alles an Teilen, was du brauchst um die deinen eigenen PC zu bauen :)");
         Category categorySmartphone = new Category(CategoryType.SMARTPHONES, "Smartphones verschiedenster Marken.");
@@ -53,6 +52,23 @@ public class TestDataInit {
 
         System.out.println("Kategorien wurden angelegt");
 
+
+        categoryService.saveCategory(categoryTechnik);
+        categoryService.saveCategory(categoryComputer);
+        categoryService.saveCategory(categorySmartphone);
+        categoryService.saveCategory(categoryKonsolen);
+        categoryService.saveCategory(categoryGames);
+        categoryService.saveCategory(categoryHaushaltsgeraete);
+        categoryService.saveCategory(categoryMusikanlagen);
+        categoryService.saveCategory(categoryCDsUndVinyl);
+        categoryService.saveCategory(categoryLautsprecher);
+        categoryService.saveCategory(categoryDVDUndBlueRay);
+        categoryService.saveCategory(categoryFernseherHeimkino);
+        categoryService.saveCategory(categorySpeichermedien);
+
+        System.out.println("Kategorien wurden in der Datenbank gespeichert");
+
+
         Product smartphone1 = new Product("Samsung Galaxy S21 Ultra 5G", 1299.00, 10, "Krasses Handy");
         smartphone1.addCategory(categorySmartphone);
         smartphone1.addCategory(categoryTechnik);
@@ -65,7 +81,7 @@ public class TestDataInit {
         imageService.saveImage(imageSmartphone1_2);
         smartphone1.addImage(imageSmartphone1_2);
         productService.saveProduct(smartphone1);
-        categorySmartphone.addProduct(smartphone1);
+//        categorySmartphone.addProduct(smartphone1);
 
         Product smartphone2 = new Product("Iphone 13 ProMax", 1829.00, 8, "1TB purer Spaß");
         smartphone2.addCategory(categorySmartphone);
@@ -79,7 +95,7 @@ public class TestDataInit {
         imageService.saveImage(imageSmartphone2_2);
         smartphone2.addImage(imageSmartphone2_2);
         productService.saveProduct(smartphone2);
-        categorySmartphone.addProduct(smartphone2);
+//        categorySmartphone.addProduct(smartphone2);
 
         Product playstation = new Product("Playstation 5", 879.00, 1, "Standard Edition, 825 GB interner Speicher");
         playstation.addCategory(categoryKonsolen);
@@ -93,7 +109,7 @@ public class TestDataInit {
         imageService.saveImage(imagePlaystation_2);
         playstation.addImage(imagePlaystation_2);
         productService.saveProduct(playstation);
-        categoryKonsolen.addProduct(playstation);
+//        categoryKonsolen.addProduct(playstation);
 
         Product game1 = new Product("Resident Evil Village", 49.99, 25, "Für Playstation 5");
         game1.addCategory(categoryGames);
@@ -103,7 +119,7 @@ public class TestDataInit {
         imageService.saveImage(imageGame1);
         game1.addImage(imageGame1);
         productService.saveProduct(game1);
-        categoryKonsolen.addProduct(game1);
+//        categoryKonsolen.addProduct(game1);
 
         Product game2 = new Product("Crusader Kings III", 18.99, 12, "Für PC");
         game2.addCategory(categoryGames);
@@ -113,7 +129,7 @@ public class TestDataInit {
         imageService.saveImage(imageGame2);
         game2.addImage(imageGame2);
         productService.saveProduct(game2);
-        categoryKonsolen.addProduct(game2);
+//        categoryKonsolen.addProduct(game2);
 
         Product game3 = new Product("Pokemon: Strahlender Diamant", 49.99, 9, "Für Nintendo-Switch");
         game3.addCategory(categoryGames);
@@ -123,7 +139,7 @@ public class TestDataInit {
         imageService.saveImage(imageGame3);
         game3.addImage(imageGame3);
         productService.saveProduct(game3);
-        categoryKonsolen.addProduct(game3);
+//        categoryKonsolen.addProduct(game3);
 
         Product pc1 = new Product("ASUS Zenbook Pro 15,6\"", 1105.00 , 5, "ASUS Zenbook Pro 15,6\" FHD i7-10870H 16GB/512GB SSD GTX1650 Win10 UX535LH-BN150T");
         pc1.addCategory(categoryComputer);
@@ -145,7 +161,7 @@ public class TestDataInit {
         imageService.saveImage(imagePc1_4);
         pc1.addImage(imagePc1_4);
         productService.saveProduct(pc1);
-        categoryKonsolen.addProduct(pc1);
+//        categoryKonsolen.addProduct(pc1);
 
         Product pc2 = new Product("Surface Pro 8", 1538.00 , 3, "Microsoft Surface Pro 8, 13 Zoll 2-in-1 Tablet (Intel Core i5, 8GB RAM, 128GB SSD, Win 11 Home) Platin Grau");
         pc2.addCategory(categoryComputer);
@@ -167,7 +183,7 @@ public class TestDataInit {
         imageService.saveImage(imagePc2_4);
         pc2.addImage(imagePc2_4);
         productService.saveProduct(pc2);
-        categoryKonsolen.addProduct(pc2);
+//        categoryKonsolen.addProduct(pc2);
 
         Product pc3 = new Product("HP Chromebook x2", 499.00 , 7, "Mit seinem ultraflachen Format ist das HP Chromebook x2 der ideale Begleiter, wohin es dich auch zieht. Mit Qualcomm Snapdragon 7c 4 GB RAM, 64 GB Speicher");
         pc3.addCategory(categoryComputer);
@@ -185,7 +201,7 @@ public class TestDataInit {
         imageService.saveImage(imagePc3_3);
         pc3.addImage(imagePc3_3);
         productService.saveProduct(pc3);
-        categoryKonsolen.addProduct(pc3);
+//        categoryKonsolen.addProduct(pc3);
 
         Product tv = new Product("LG signature OLED88Z19LA OLED TV", 29999.00 , 1, "LG signature OLED88Z19LA OLED TV (Flat, 88 Zoll / 222 cm, UHD 8K, SMART TV, webOS 6.0 mit LG ThinQ)");
         tv.addCategory(categoryFernseherHeimkino);
@@ -199,24 +215,11 @@ public class TestDataInit {
         imageService.saveImage(imageTv_2);
         tv.addImage(imageTv_2);
         productService.saveProduct(tv);
-        categoryKonsolen.addProduct(tv);
+//        categoryKonsolen.addProduct(tv);
 
         System.out.println("Produkte hinzugefügt und in der Datenbank gespeichert");
 
-        categoryService.saveCategory(categoryTechnik);
-        categoryService.saveCategory(categoryComputer);
-        categoryService.saveCategory(categorySmartphone);
-        categoryService.saveCategory(categoryKonsolen);
-        categoryService.saveCategory(categoryGames);
-        categoryService.saveCategory(categoryHaushaltsgeraete);
-        categoryService.saveCategory(categoryMusikanlagen);
-        categoryService.saveCategory(categoryCDsUndVinyl);
-        categoryService.saveCategory(categoryLautsprecher);
-        categoryService.saveCategory(categoryDVDUndBlueRay);
-        categoryService.saveCategory(categoryFernseherHeimkino);
-        categoryService.saveCategory(categorySpeichermedien);
-
-        System.out.println("Kategorien wurden in der Datenbank gespeichert");
+        //TODO hier wurden vorher die Kategorien gespeichert das geht aber nicht da die Referenz ja dann nicht bekannt ist um das Produkt dann zu speichern
 
         User user = new User("user");
         Address address1 = new Address(
@@ -279,6 +282,3 @@ public class TestDataInit {
 
     }
 }
-
-
-

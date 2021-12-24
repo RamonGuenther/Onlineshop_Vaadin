@@ -23,23 +23,17 @@ public class Category {
     private CategoryType categoryType;
     private String description;
 
-    @ManyToMany
+    @ManyToMany( mappedBy = "categories")
     private Set<Product> products;
 
-    public Category(CategoryType categoryType, String description, Set<Product> products) {
-        this.categoryType = categoryType;
-        this.description = description;
-        this.products = products;
-    }
 
     public Category(CategoryType categoryType, String description){
         this.categoryType = categoryType;
         this.description = description;
-        this.products = new HashSet<>();
     }
 
     public Category() {
-        this.products = new HashSet<>();
+
     }
 
     public Long getId() {
@@ -66,15 +60,4 @@ public class Category {
         this.description = description;
     }
 
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
-
-    public void addProduct(Product product){
-        products.add(product);
-    }
 }

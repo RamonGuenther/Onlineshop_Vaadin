@@ -31,12 +31,19 @@ public class CategoryService {
         categoryRepository.save(new Category(categoryType, description));
     }
 
-    public Category getCategorieById(Long id){
+    public Category getCategoryById(Long id){
         return categoryRepository.getById(id);
     }
+
+    public Category getCategoryByCategoryType(CategoryType categoryType){
+        return categoryRepository.getCategoryByCategoryType(categoryType);
+    }
+
 
     public List<Category> getAllCategories(){
         return categoryRepository.findAll();
     }
+
+
 
 }
