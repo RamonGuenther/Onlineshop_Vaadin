@@ -30,10 +30,10 @@ public class Product {
     private Double price;
 
     @ManyToMany
-    private Set<ProductImage> productImages;
+    private List<ProductImage> productImages;
 
     @ManyToMany
-    private Set<Category> categories;
+    private List<Category> categories;
 
     private int inStock;
 
@@ -41,8 +41,8 @@ public class Product {
 
     public Product(String name,
                    Double price,
-                   Set<ProductImage> productImages,
-                   Set<Category> categories,
+                   List<ProductImage> productImages,
+                   List<Category> categories,
                    int inStock,
                    String description) {
         this.name = name;
@@ -58,13 +58,13 @@ public class Product {
         this.price = price;
         this.inStock = inStock;
         this.description = description;
-        this.productImages = new HashSet<>();
-        this.categories = new HashSet<>();
+        this.productImages = new ArrayList<>();
+        this.categories = new ArrayList<>();
     }
 
     public Product() {
-        this.productImages = new HashSet<>();
-        this.categories = new HashSet<>();
+        this.productImages = new ArrayList<>();
+        this.categories = new ArrayList<>();
     }
 
     public Long getId() {
@@ -91,15 +91,15 @@ public class Product {
         this.price = price;
     }
 
-    public Set<ProductImage> getImages() {
+    public List<ProductImage> getImages() {
         return productImages;
     }
 
-    public void setImages(Set<ProductImage> productImages) {
+    public void setImages(List<ProductImage> productImages) {
         this.productImages = productImages;
     }
 
-    public Set<Category> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
@@ -107,7 +107,7 @@ public class Product {
         return categories.stream().findFirst().get().getCategoryType().label;
     }
 
-    public void setCategories(Set<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 
@@ -154,12 +154,16 @@ public class Product {
     }
 
     public List<CategoryType> getCategorieEnums(){
-        System.out.println(categories.size());
         List<CategoryType> categoryTypeList = new ArrayList<>();
         for(Category category: categories){
             categoryTypeList.add(category.getCategoryType());
         }
         return categoryTypeList;
     }
+
+    public Image getMainProductImage(){
+        return productImages.get(0).getVaadinImage();
+    }
+
 
 }

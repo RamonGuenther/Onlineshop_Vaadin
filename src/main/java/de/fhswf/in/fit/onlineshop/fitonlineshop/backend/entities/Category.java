@@ -3,8 +3,7 @@ package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.enums.CategoryType;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Die Klasse Category speichert die Details zu einer Produktkategorie,
@@ -24,7 +23,7 @@ public class Category {
     private String description;
 
     @ManyToMany( mappedBy = "categories")
-    private Set<Product> products;
+    private List<Product> products;
 
 
     public Category(CategoryType categoryType, String description){

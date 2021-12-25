@@ -50,6 +50,8 @@ public class MainLayout extends AppLayout {
 
         H1 title = new H1("R & I");
         title.addClassName("main-layout-title");
+        title.addClickListener(e -> UI.getCurrent().navigate(ProductView.class));
+
 
         MenuBar menuBar = new MenuBar();
         menuBar.addThemeVariants(MenuBarVariant.MATERIAL_OUTLINED);
@@ -75,6 +77,7 @@ public class MainLayout extends AppLayout {
         logout.addClickListener(e -> UI.getCurrent().getPage().setLocation("/logout"));
 
         Button cartButton = new Button("Warenkorb");
+        cartButton.addClickListener(e -> UI.getCurrent().navigate(ShoppingCartView.class));
         cartButton.setIcon(VaadinIcon.CART_O.create());
         cartButton.setId("main-layout-cart_button");
 

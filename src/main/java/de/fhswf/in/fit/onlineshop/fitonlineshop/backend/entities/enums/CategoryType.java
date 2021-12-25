@@ -10,6 +10,7 @@ import java.util.List;
  * @author Ivonne Kneißig & Ramon Günther
  */
 public enum CategoryType {
+    ALLE_KATEGORIEN ("Alle Kategorien"),
     TECHNIK ("Technik"),
     COMPUTER ("Computer"),
     SMARTPHONES ("Smartphones"),

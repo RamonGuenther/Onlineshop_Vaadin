@@ -2,6 +2,7 @@ package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.repositories;
 
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Category;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Product;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.enums.CategoryType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -20,6 +21,15 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findAllByCategoriesIsContaining(Category category);
 
-    @Query("select p from Product p where lower(p.name) like lower(concat('%', :searchTerm, '%')) or  lower(p.id) like lower(concat('%', :searchTerm, '%')) ")
-    List<Product> findAllByName (String searchTerm);
+    //TODO Query umändern in einen Spring Befehl Ivonne fragen ob sie eine Idee hat??
+    @Query("select p from Product p where lower(p.name) like lower(concat('%', :searchTerm, '%')) or lower(p.id) like lower(concat('%', :searchTerm, '%')) ")
+    List<Product> findAllByNameOrId (String searchTerm);
+
+    //TODO: Auch hier Ivonne fragen ob sie eine Idee hat da wir hier einen Join brauchen beim Query glaube ich oder vllt gehts mit Spring iwie
+//    @Query("")
+//    List<Product> findAllByNameOrIdAndCategories (String name, String id, Category category);
+
+
+    List<Product> findAllByCategories(Category category);
+
 }

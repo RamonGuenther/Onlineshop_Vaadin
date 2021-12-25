@@ -8,8 +8,8 @@ import org.apache.commons.io.IOUtils;
 import javax.persistence.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Die Klasse Image speichert ein Bild und die Produkte, zu denen dieses
@@ -32,9 +32,9 @@ public class ProductImage {
     private ImageType type;
 
     @ManyToMany (mappedBy = "productImages")
-    private Set<Product> products;
+    private List<Product> products;
 
-    public ProductImage(String name, byte[] data, ImageType type, Set<Product> product) {
+    public ProductImage(String name, byte[] data, ImageType type, List<Product> product) {
         this.name = name;
         this.data = data;
         this.type = type;
@@ -44,7 +44,7 @@ public class ProductImage {
     public ProductImage(String name, ImageType type, Product product) {
         this.name = name;
         this.type = type;
-        this.products = new HashSet<>();
+        this.products = new ArrayList<>();
         this.products.add(product);
     }
 
@@ -91,11 +91,11 @@ public class ProductImage {
         this.type = type;
     }
 
-    public Set<Product> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(Set<Product> product) {
+    public void setProducts(List<Product> product) {
         this.products = product;
     }
 

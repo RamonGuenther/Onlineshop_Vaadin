@@ -34,6 +34,10 @@ public class TestDataInit {
     @Autowired
     private UserService userService;
 
+    /**
+     * TODO:  - Product_image lässt sich vereinfachen in dem man in ProductImage das Set von produkten nicht nutzt das Ergebnis ist dasselbe
+     *         - statt set vllt doch eine Liste benutzen, da Sets in keiner bestimmten Reihenfolge werte speichern was doof ist das gleiche gilt auch für Kategorien
+     */
     @PostConstruct
     private void initTestData(){
 
@@ -207,7 +211,7 @@ public class TestDataInit {
         tv.addCategory(categoryFernseherHeimkino);
         tv.addCategory(categoryTechnik);
         ProductImage imageTv_1 = new ProductImage("21_lgfernseher.png", ImageType.JPEG, tv);
-        imageTv_1.setData("20_chromebook.jpeg");
+        imageTv_1.setData("21_lgfernseher.png");
         imageService.saveImage(imageTv_1);
         tv.addImage(imageTv_1);
         ProductImage imageTv_2 = new ProductImage("22_lgfernseher.png", ImageType.JPEG, tv);
