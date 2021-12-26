@@ -2,6 +2,7 @@ package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service;
 
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Orders;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.User;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.enums.OrderState;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.repositories.OrdersRepository;
 import org.springframework.stereotype.Service;
 

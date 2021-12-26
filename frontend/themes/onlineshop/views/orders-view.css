@@ -1,6 +1,6 @@
 .orders-view-formlayout{
     width: 1000px;
-    height: 500px;
+    height: 600px;
     margin: auto;
 }
 
@@ -11,22 +11,6 @@
 #orders-view-order_number_select{
     margin-bottom: 30px;
     width: 200px !important;
-}
-
-#orders-view-order_number{
-
-}
-
-#orders-view-billing_address{
-
-}
-
-#orders-view-delivery_address{
-
-}
-
-#orders-view-order_comment{
-
 }
 
 #orders-view-grid{

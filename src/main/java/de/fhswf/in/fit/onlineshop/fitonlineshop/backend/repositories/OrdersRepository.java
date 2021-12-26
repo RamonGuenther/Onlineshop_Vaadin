@@ -1,6 +1,7 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.repositories;
 
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Orders;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.enums.OrderState;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,5 +1,6 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.views;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -12,9 +13,11 @@ import com.vaadin.flow.router.Route;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.OrderedProduct;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Orders;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.User;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.AddressService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.OrderedProductService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.OrdersService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.UserService;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.SubmitOrderDialog;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
@@ -29,88 +32,42 @@ import java.util.List;
 @CssImport("/themes/onlineshop/views/shopping-cart-view.css")
 public class ShoppingCartView extends VerticalLayout {
 
-    private final Grid<OrderedProduct> orderedProductGrid;
-    private final Label orderNumber;
-    private final Label billingAddress;
-    private final Label deliveryAddress;
-    private final Label orderComment;
-    private final FormLayout formLayout;
     private List<OrderedProduct> orderedProducts;
     private double gesamtbetrag;
 
-    public ShoppingCartView(OrderedProductService orderedProductService, OrdersService ordersService, UserService userService){
+    public ShoppingCartView(OrderedProductService orderedProductService, OrdersService ordersService, UserService userService, AddressService addressService){
 
-        //Am anfang formlayout mit Rechnungsadresse etc. aus orders
-
-        //Grid und wenn man auf details klickt kommt man wieder auf die productdetails mit der Id ausm grid
-        //Footer mit anzahl der items und dem gesamt wert der bestellung
-        /*
-         *  Im Formlayout oder als Grid auch die Summe angeben die für das jeweilige Produkt ist theoretisch kann ich beim Grid value des preise mal die angeklickte Menge rechnen
-         *  Warenkorb als Grid oder formlayouts wieder und unten die Summe angeben die insgesamt gezahlt werden soll und lieferadresse einstellen
-         */
-
-        H1 ordersTitle = new H1("Bestellungen");
+        //TODO: Warenkorb menge anpassen oder direkt löschen
+        H1 ordersTitle = new H1("Warenkorb");
 
         User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Orders order = user.getShoppingCart();
+        List<OrderedProduct> orderedProducts = order.getOrderedProducts();
 
-        List<Orders> orders = ordersService.findOrdersByUser(user);
-
-        Select<String> select = new Select<>();
-        select.setLabel("Bestellungsnummer:");
-
-        orders.stream().map(order -> order.getId().toString()).forEach(select::setItems);
-
-
-
-        formLayout = new FormLayout();
-
-        orderNumber = new Label("Bestellungsnummer: " );
-
-        billingAddress = new Label("Rechnungsadresse: ");
-
-        deliveryAddress = new Label("Lieferadresse: ");
-
-        orderComment = new Label("Bestellkommentar: ");
-
-        formLayout.add(orderNumber, billingAddress, deliveryAddress, orderComment);
-
-
-//
-//        //Grid kleiner machen und Menge bearbeitbar in Tabelle oder Dialog?
-        orderedProductGrid = new Grid<>();
+        Grid<OrderedProduct> orderedProductGrid = new Grid<>();
+        orderedProductGrid.setItems(orderedProducts);
 
         orderedProductGrid.addColumn(orders1 -> orders1.getId().getProduct().getName()).setHeader("Produktname");
         orderedProductGrid.addColumn(OrderedProduct::getAmount).setHeader("Menge");
-        orderedProductGrid.addColumn(price ->  price.getId().getProduct().getPrice() + " €").setHeader("Einzelpreis") ;
+        orderedProductGrid.addColumn(price -> price.getId().getProduct().getPrice() + " €").setHeader("Einzelpreis");
 
-        orderedProductGrid.addColumn(price ->  price.getId().getProduct().getPrice()* price.getAmount() + " €").setHeader("preis");
+        orderedProductGrid.addColumn(price -> price.getId().getProduct().getPrice() * price.getAmount() + " €").setHeader("Gesamtpreis");
+        gesamtbetrag = 0;
 
+        for (OrderedProduct orderedProduct : orderedProducts) {
+            gesamtbetrag = orderedProduct.getId().getProduct().getPrice() * orderedProduct.getAmount() + gesamtbetrag;
+        }
+        orderedProductGrid.getColumns().get(0).setFooter(
+                "Artikel: " + orderedProducts.size() + "       |       Gesamtbetrag: " + gesamtbetrag + "€"
+        );
 
+        Button orderButton = new Button("Bestellen");
 
-        add(ordersTitle,select, formLayout,orderedProductGrid);
+        add(ordersTitle, orderedProductGrid, orderButton);
 
+        SubmitOrderDialog submitOrderDialog = new SubmitOrderDialog(userService,addressService, ordersService, gesamtbetrag);
+        //Warenkorb bestellen dann neue leere order erstellen und über order und user speichern! die bestellte order auf bestellt setzen und übber modal oder ähnliches adressen hinzufügen
 
-        select.addValueChangeListener(e -> {
-            Orders order = ordersService.getOrderById(Long.parseLong(e.getValue()));
-            System.out.println(order.getOrderComment());
-            orderNumber.setText("Bestellungsnummer: " + order.getId());
-            billingAddress.setText("Rechnungsadresse: " + order.getBillingAddress().getStreet() + ", " + order.getBillingAddress().getPostalCode() + ", " + order.getBillingAddress().getCountry());
-            deliveryAddress.setText("Lieferadresse: " + order.getDeliveryAddress().getStreet() + ", " + order.getDeliveryAddress().getPostalCode() + ", " + order.getDeliveryAddress().getCountry());
-            orderComment.setText("Bestellkommentar: " + order.getOrderComment());
-
-            orderedProducts = order.getOrderedProducts();
-
-            gesamtbetrag = 0;
-
-            for(OrderedProduct orderedProduct : orderedProducts){
-                gesamtbetrag = orderedProduct.getId().getProduct().getPrice() * orderedProduct.getAmount() + gesamtbetrag;
-            }
-
-            orderedProductGrid.setItems(orderedProducts);
-
-            orderedProductGrid.getColumns().get(0).setFooter("Artikel: " + orderedProducts.size() + "          |       Gesamtbetrag: " + gesamtbetrag + "€");
-
-        });
-
+        orderButton.addClickListener(e ->submitOrderDialog.open());
     }
 }

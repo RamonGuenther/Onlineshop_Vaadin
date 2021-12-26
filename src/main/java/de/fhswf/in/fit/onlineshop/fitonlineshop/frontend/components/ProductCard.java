@@ -160,4 +160,9 @@ public class ProductCard {
     public Button getDetailsButton() {
         return detailsButton;
     }
+
+
+    public void setProductAvailabilityText(String value) {
+        productAvailability.setText(value);
+    }
 }

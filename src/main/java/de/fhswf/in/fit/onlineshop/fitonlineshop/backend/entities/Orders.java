@@ -1,5 +1,7 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities;
 
+import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.enums.OrderState;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,6 +30,8 @@ public class Orders {
 
     private String orderComment;
 
+    private OrderState orderState;
+
     @OneToMany
     private List<OrderedProduct> orderedProducts;
 
@@ -36,9 +40,11 @@ public class Orders {
         this.deliveryAddress = deliveryAddress;
         this.orderComment = orderComment;
         this.orderedProducts = new ArrayList<>();
+        orderState = OrderState.WARENKORB;
     }
 
     public Orders() {
+        orderState = OrderState.WARENKORB;
     }
 
     public Long getId() {
@@ -85,4 +91,12 @@ public class Orders {
         this.orderedProducts.add(orderedProduct);
     }
 
+    public OrderState getOrderState() {
+        return orderState;
+    }
+
+
+    public void setOrderState(OrderState orderState) {
+        this.orderState = orderState;
+    }
 }
