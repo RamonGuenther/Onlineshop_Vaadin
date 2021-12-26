@@ -1,7 +1,9 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,33 +20,35 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
 
     @OneToMany(cascade = CascadeType.REMOVE)
-    private Set<Address> adresses;
+    private List<Address> adresses;
 
     @OneToMany
-    private Set<Orders> orders;
+    private List<Orders> orders;
 
-    public User(String username, Set<Address> adresses, Set<Orders> orderNumbers) {
+    public User(String username, List<Address> adresses, List<Orders> orderNumbers) {
         this.username = username;
         this.adresses = adresses;
         this.orders = orderNumbers;
     }
 
     public User() {
-        this.adresses = new HashSet<>();
-        this.orders = new HashSet<>();
+        this.adresses = new ArrayList<>();
+        this.orders = new ArrayList<>();
     }
 
-    public User(String username){
+    public User(String username) {
         this.username = username;
-        this.adresses = new HashSet<>();
-        this.orders = new HashSet<>();
-    };
+        this.adresses = new ArrayList<>();
+        this.orders = new ArrayList<>();
+    }
+
+    ;
 
     public Long getId() {
         return id;
@@ -62,31 +66,37 @@ public class User {
         this.username = username;
     }
 
-    public Set<Address> getAdresses() {
+    public List<Address> getAdresses() {
         return adresses;
     }
 
-    public void setAdresses(Set<Address> adresses) {
+    public void setAdresses(List<Address> adresses) {
         this.adresses = adresses;
     }
 
-    public Set<Orders> getOrders() {
-        return orders;
+    public List<Orders> getOrders() {
+        List<Orders> ordersList = orders;
+        ordersList.remove(orders.size() - 1);
+        return ordersList;
     }
 
-    public void setOrders(Set<Orders> orderNumbers) {
+    public Orders getShoppingCart() {
+        return orders.get(orders.size() - 1);
+    }
+
+    public void setOrders(List<Orders> orderNumbers) {
         this.orders = orderNumbers;
     }
 
-    public void addAddress(Address address){
+    public void addAddress(Address address) {
         this.adresses.add(address);
     }
 
-    public void deleteAddress(Address address){
+    public void deleteAddress(Address address) {
         this.adresses.remove(address);
     }
 
-    public void addOrder(Orders order){
+    public void addOrder(Orders order) {
         this.orders.add(order);
     }
 

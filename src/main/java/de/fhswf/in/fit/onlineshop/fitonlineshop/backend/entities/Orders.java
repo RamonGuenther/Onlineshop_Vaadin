@@ -84,5 +84,4 @@ public class Orders {
     public void addOrderedProduct(OrderedProduct orderedProduct){
         this.orderedProducts.add(orderedProduct);
     }
-
 }

@@ -2,22 +2,14 @@
     border: 3px solid hsl(0, 35%, 36%);
     border-radius: 5px;
     width: 1200px;
-    height: 600px;
     margin: 50px auto auto;
     padding: 20px;
 }
 
-.product-details-view-product_formlayout{
-    width: 750px !important;
-    margin-right: 100px;
-}
-
 #product-details-view-addToCart_button{
-    width: 300px;
     background-color: hsl(0, 35%, 36%);
-    margin-top: 500px;
+    margin-top: 22px;
 }
-
 
 #product-details-view-product_image {
     border: 1px solid hsl(0, 35%, 36%);
@@ -28,35 +20,33 @@
 #product-details-view-product_name {
     font-weight: bold;
     font-size: xx-large;
+    margin-top: 20px;
+}
+
+.product-details-view-image_buttons_layout {
+    margin-left: 100px;
 
 }
 
-#product-details-view-product_price {
-    margin-top: 50px;
-    font-size: x-large;
+.product-details-view-details_title{
+    margin-bottom: -15px;
+    font-size: 14pt;
 }
 
-#product-details-view-product_description {
-    margin-top: 10px;
-    font-size: x-large;
+.product-details-view-details{
+    font-size: 12pt;
 }
 
-#product-details-view-product_availability {
-    margin-top: 10px;
-    font-size: x-large;
-}
-
-#product-details-view-product_id {
-    margin-top: 10px;
-    font-size: x-large;
+.product-form-layout-product_details_layout{
 
 }
 
-.product-details-view-product_badge_layout {
-    visibility: hidden;
+.product-details-view-badge_layout{
+    margin-top: -20px;
+    margin-bottom: 30px;
 }
 
-
-.apfel {
-    margin-left: 100px
+.product-details-view-image_layout{
+    width: 350px !important;
 }
+

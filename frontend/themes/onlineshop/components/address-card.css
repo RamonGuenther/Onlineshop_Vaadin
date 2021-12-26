@@ -24,7 +24,9 @@
 
 .address-card-buttons{
     color: hsl(0, 35%, 36%);
-    width: 200px;
+    width: 150px;
+    margin-left: 30px;
+    margin-right: 30px;
 }
 
 #address-card{
@@ -42,4 +44,10 @@
 
 #address-card-phone_number{
     margin-top: 15px;
+}
+
+#address-card-buttonbox{
+    margin: auto;
+    margin-top: 20px;
+
 }

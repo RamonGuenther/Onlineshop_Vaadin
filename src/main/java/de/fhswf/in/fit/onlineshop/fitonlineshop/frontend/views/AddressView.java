@@ -10,19 +10,21 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.User;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.AddressService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.UserService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.AddressCard;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.NewAddressDialog;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 
 /**
- * Hier kann man Adressen dann einfügen löschen etc.
+ * Die Klasse AddressView erstellt eine View, in der die Adressen
+ * der Benutzer angezeigt werden. Zusätzlich hat der Benutzer die
+ * Möglichkeit neue Adressen hinzuzufügen, bestehende Addressen
+ * zu ändern oder zu entfernen.
+ *
+ * @author Ivonne Kneißig & Ramon Günther
  */
 @Route(value = "profil", layout = MainLayout.class)
-@PageTitle("R & I | Profil")
+@PageTitle("R & I | Adressen")
 @CssImport("/themes/onlineshop/views/address-view.css")
 public class AddressView extends VerticalLayout {
 
