@@ -3,7 +3,10 @@ package de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.views;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -19,21 +22,21 @@ import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.ProductService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.UserService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.NotificationError;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.NotificationSuccess;
-import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.ProductCard;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.vaadin.addons.badge.Badge;
 
 import java.util.List;
 
-/**
- * TODO: Eigene Komponente draus machen und nicht Cardview benutzen dann muss ich aber auch das Layout um das Bild wieder wegmachen und paar dinge r´ückgängig machen
- */
 @Route(value = "produktDetails/productId/:productId", layout = MainLayout.class)
 @PageTitle("R & I | Produkt Details")
 @CssImport("/themes/onlineshop/views/product-details-view.css")
-public class ProductDetailsView extends VerticalLayout implements BeforeEnterObserver, AfterNavigationObserver {
+public class ProductDetailsView extends HorizontalLayout implements BeforeEnterObserver, AfterNavigationObserver {
 
     private Product product;
     private Long id;
+
+    private Image image;
+    private VerticalLayout imageLayout;
 
     private final ProductService productService;
     private final OrderedProductService orderedProductService;
@@ -41,8 +44,7 @@ public class ProductDetailsView extends VerticalLayout implements BeforeEnterObs
     private final OrdersService ordersService;
 
     private List<Image> imageList;
-    private ProductCard productCard;
-
+    private Label productAvailability;
 
     public ProductDetailsView(ProductService productService, OrderedProductService orderedProductService, UserService userService, OrdersService ordersService) {
         this.productService = productService;
@@ -52,53 +54,74 @@ public class ProductDetailsView extends VerticalLayout implements BeforeEnterObs
     }
 
     private void createView() {
-        productCard = new ProductCard();
-        HorizontalLayout horizontalLayout = productCard.createProductCard(product);
+        setClassName("product-details-view-product_card_layout");
 
-        productCard.getProductDescription().setText(product.getDescription());
-        productCard.getProductCardLayout().remove(productCard.getDetailsButton());
+        H1 productName = new H1(product.getName());
+        productName.setId("product-details-view-product_name");
 
+        HorizontalLayout badgeLayout = new HorizontalLayout();
+        badgeLayout.setClassName("product-details-view-badge_layout");
 
-        Button addToCartButton = new Button("In den Einkaufswagen");
+        product.getCategorieEnums().stream().map(categoryType -> new Badge(categoryType.label)).forEach(badge -> {
+            badge.setVariant(Badge.BadgeVariant.SUCCESS);
+            badgeLayout.add(badge);
+        });
+
+        H2 projectDescriptionTitle = new H2("Beschreibung");
+        projectDescriptionTitle.setClassName("product-details-view-details_title");
+        Label productDescription = new Label(product.getDescription());
+        productDescription.setClassName("product-details-view-details");
+
+        H2 productPriceTitle = new H2("Preis");
+        productPriceTitle.setClassName("product-details-view-details_title");
+        Label productPrice = new Label(product.getPrice().toString() + " €");
+        productPrice.setClassName("product-details-view-details");
+
+        H2 productAvailabilityTitle = new H2("Auf Lager");
+        productAvailabilityTitle.setClassName("product-details-view-details_title");
+        productAvailability = new Label(Integer.toString(product.getInStock()));
+        productAvailability.setClassName("product-details-view-details");
+
+        H2 productIdTitle = new H2("Bestellnummer");
+        productIdTitle.setClassName("product-details-view-details_title");
+        Label productId = new Label(product.getId().toString());
+        productId.setClassName("product-details-view-details");
+
+        Button addToCartButton = new Button(VaadinIcon.CART_O.create());
         addToCartButton.setId("product-details-view-addToCart_button");
         addToCartButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        productCard.getProductCardLayout().add(addToCartButton);
 
-        if(product.getInStock() == 0){
-            addToCartButton.setEnabled(false);
-        }
+        VerticalLayout productDetailsLayout = new VerticalLayout(
+                productName, badgeLayout,
+                projectDescriptionTitle, productDescription,
+                productPriceTitle, productPrice,
+                productAvailabilityTitle, productAvailability,
+                productIdTitle, productId);
+        productDetailsLayout.setClassName("product-form-layout-product_details_layout");
 
 
         imageList = product.getVaadinImageList();
-        HorizontalLayout horizontalLayout1 = new HorizontalLayout();
-        horizontalLayout1.setClassName("apfel");
-        Button button = new Button(VaadinIcon.ANGLE_LEFT.create());
-        Button button1 = new Button(VaadinIcon.ANGLE_RIGHT.create());
+        image = product.getMainProductImage();
+        image.setId("product-details-view-product_image");
 
-        horizontalLayout1.add(button, button1);
-        productCard.getImageLayout().add(horizontalLayout1);
+        HorizontalLayout imageButtonsLayout = new HorizontalLayout();
+        imageButtonsLayout.setClassName("product-details-view-image_buttons_layout");
+        Button buttonLastPicture = new Button(VaadinIcon.ANGLE_LEFT.create());
+        Button buttonNextPicture = new Button(VaadinIcon.ANGLE_RIGHT.create());
+        imageButtonsLayout.add(buttonLastPicture, buttonNextPicture);
 
-        productCard.getProductCardLayout().setClassName("product-details-view-product_card_layout");
-        productCard.getFormLayout().setClassName("product-details-view-product_formlayout");
+        imageLayout = new VerticalLayout();
+        imageLayout.setClassName("product-details-view-image_layout");
+        imageLayout.add(image, imageButtonsLayout);
 
-        productCard.getImage().setId("product-details-view-product_image");
-        productCard.getProductName().setId("product-details-view-product_name");
-        productCard.getProductPrice().setId("product-details-view-product_price");
-        productCard.getProductDescription().setId("product-details-view-product_description");
-        productCard.getProductAvailability().setId("product-details-view-product_availability");
-        productCard.getProductId().setId("product-details-view-product_id");
-        productCard.getBadgeLayout().setClassName("product-details-view-product_badge_layout");
-
-
-        button.addClickListener(e->{
+        buttonLastPicture.addClickListener(e->{
 
         });
 
-        button1.addClickListener(e->{
+        buttonNextPicture.addClickListener(e->{
 
 
         });
-
 
         addToCartButton.addClickListener(event->{
             try {
@@ -119,12 +142,11 @@ public class ProductDetailsView extends VerticalLayout implements BeforeEnterObs
                         productService.saveProduct(product);
                         op.setAmount(op.getAmount() + 1);
                         orderedProductService.saveOrderedProduct(op);
-                        productCard.setProductAvailabilityText("Auf Lager: " + product.getInStock());
+                        productAvailability.setText("Auf Lager: " + product.getInStock());
                         NotificationSuccess.show("Das Produkt " + product.getName() + " wurde dem Warenkorb hinzugefügt");
                         return;
                     }
                 }
-
 
                 OrderedProduct orderedProduct = new OrderedProduct(new OrderedProductKey(product, shoppingCart), 1);
 
@@ -136,23 +158,16 @@ public class ProductDetailsView extends VerticalLayout implements BeforeEnterObs
 
                 product.setInStock(product.getInStock() - 1);
                 productService.saveProduct(product);
-                productCard.setProductAvailabilityText("Auf Lager: " + product.getInStock());
-
+                productAvailability.setText("Auf Lager: " + product.getInStock());
 
                 NotificationSuccess.show("Das Produkt " + product.getName() + " wurde dem Warenkorb hinzugefügt");
-
-
-
-                //hier wird geschaut ob ein Warenkorb existiert
-                //dann müssen hier die gewählten Produkte in ordered Product gespeichert werden
-                //Danach notification und man bleibt auf der Seite
             }
             catch(Exception e){
                 NotificationError.show(e.getMessage());
             }
         });
-        add(horizontalLayout);
 
+        add(imageLayout, productDetailsLayout, addToCartButton);
     }
 
     @Override

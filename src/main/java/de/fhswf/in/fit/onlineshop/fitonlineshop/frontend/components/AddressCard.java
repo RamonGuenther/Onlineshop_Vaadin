@@ -71,6 +71,7 @@ public class AddressCard {
     private VerticalLayout createAddressCard(Address address){
         addressCard = new VerticalLayout();
         buttons = new HorizontalLayout();
+        buttons.setId("address-card-buttonbox");
 
         name = new Label(address.getFirstName() + " " + address.getLastName());
         name.setId("address-card-label_name");
