@@ -1,4 +1,4 @@
-.iconSunMoon{
+.iconSunMoon {
     height: 30px;
     width: 30px;
 }
@@ -7,11 +7,11 @@
 
 }
 
-#buttonLightMode{
-    color:black;
+#buttonLightMode {
+    color: black;
 }
 
-#buttonDarkMode{
-    color:  #f1c40f ;
+#buttonDarkMode {
+    color: #f1c40f;
 }
 

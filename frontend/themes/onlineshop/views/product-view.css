@@ -1,0 +1,14 @@
+#product-view-title {
+    font-size: xx-large;
+}
+
+#product-view-filter_text {
+    margin-top: 150px;
+    width: 250px;
+    position: fixed;
+}
+
+#product-view-tabs{
+    /*position: fixed;*/
+    width: 100%;
+}

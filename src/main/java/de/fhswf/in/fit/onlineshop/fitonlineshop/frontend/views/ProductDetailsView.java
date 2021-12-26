@@ -9,6 +9,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Product;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.OrderedProductService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.ProductService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.ProductCard;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.views.MainLayout;
@@ -25,11 +26,14 @@ public class ProductDetailsView extends VerticalLayout implements BeforeEnterObs
     private Long id;
 
     private final ProductService productService;
+    private final OrderedProductService orderedProductService;
+
     private List<Image> imageList;
 
 
-    public ProductDetailsView(ProductService productService) {
+    public ProductDetailsView(ProductService productService, OrderedProductService orderedProductService) {
         this.productService = productService;
+        this.orderedProductService = orderedProductService;
     }
 
     private void createView() {
@@ -51,11 +55,8 @@ public class ProductDetailsView extends VerticalLayout implements BeforeEnterObs
         Button button = new Button(VaadinIcon.ANGLE_LEFT.create());
         Button button1 = new Button(VaadinIcon.ANGLE_RIGHT.create());
 
-
-
         horizontalLayout1.add(button, button1);
         productCard.getImageLayout().add(horizontalLayout1);
-
 
         productCard.getProductCardLayout().setClassName("product-details-view-product_card_layout");
         productCard.getFormLayout().setClassName("product-details-view-product_formlayout");

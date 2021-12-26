@@ -34,18 +34,15 @@ public class ProductImage {
     @ManyToMany (mappedBy = "productImages")
     private List<Product> products;
 
-    public ProductImage(String name, byte[] data, ImageType type, List<Product> product) {
+    public ProductImage(String name, byte[] data, ImageType type) {
         this.name = name;
         this.data = data;
         this.type = type;
-        this.products = product;
     }
 
-    public ProductImage(String name, ImageType type, Product product) {
+    public ProductImage(String name, ImageType type) {
         this.name = name;
         this.type = type;
-        this.products = new ArrayList<>();
-        this.products.add(product);
     }
 
     public ProductImage() {

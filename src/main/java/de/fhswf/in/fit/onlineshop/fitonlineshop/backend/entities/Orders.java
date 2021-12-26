@@ -1,7 +1,9 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,13 +29,13 @@ public class Orders {
     private String orderComment;
 
     @OneToMany
-    private Set<OrderedProduct> orderedProducts;
+    private List<OrderedProduct> orderedProducts;
 
     public Orders(Address billingAddress, Address deliveryAddress, String orderComment) {
         this.billingAddress = billingAddress;
         this.deliveryAddress = deliveryAddress;
         this.orderComment = orderComment;
-        this.orderedProducts = new HashSet<>();
+        this.orderedProducts = new ArrayList<>();
     }
 
     public Orders() {
@@ -71,11 +73,11 @@ public class Orders {
         this.orderComment = orderComment;
     }
 
-    public Set<OrderedProduct> getOrderedProducts() {
+    public List<OrderedProduct> getOrderedProducts() {
         return orderedProducts;
     }
 
-    public void setOrderedProducts(Set<OrderedProduct> orderedProducts) {
+    public void setOrderedProducts(List<OrderedProduct> orderedProducts) {
         this.orderedProducts = orderedProducts;
     }
 

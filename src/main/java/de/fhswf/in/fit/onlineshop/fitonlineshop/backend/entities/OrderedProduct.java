@@ -25,6 +25,7 @@ public class OrderedProduct  {
     }
 
     public OrderedProduct() {
+
     }
 
     public OrderedProductKey getId() {

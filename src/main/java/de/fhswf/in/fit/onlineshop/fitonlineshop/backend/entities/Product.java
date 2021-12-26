@@ -20,9 +20,10 @@ import java.util.Set;
 @Entity
 public class Product {
 
-    @TableGenerator(name = "test", initialValue = 10000, allocationSize = 100)
+    //TODO Funktioniert nicht wie gedacht XD
+    @TableGenerator(name = "product_gen",initialValue = 10000, allocationSize = 100)
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY, generator = "test")
+    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "product_gen")
     private Long id;
 
     private String name;

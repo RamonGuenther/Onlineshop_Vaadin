@@ -1,12 +1,12 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.views;
 
-import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -44,7 +44,8 @@ import java.util.List;
  * F100: Eingeloggte Benutzer können sich ausloggen.
  */
 @Route(value = "produkte", layout = MainLayout.class)
-@PageTitle("Projektverwaltung | Projektübersicht")
+@PageTitle("R & I | Produltübersicht")
+@CssImport("/themes/onlineshop/views/product-view.css")
 public class ProductView extends VerticalLayout {
 
     private final VerticalLayout productCardsLayout;
@@ -54,21 +55,22 @@ public class ProductView extends VerticalLayout {
 
     public ProductView(ProductService productService) {
 
+        H1 productViewTitle = new H1("Produktübersicht");
+        productViewTitle.setId("product-view-title");
+
         this.productService = productService;
 
         productList = productService.findAllProducts();
         Tabs tabs = new Tabs();
+        tabs.setId("product-view-tabs");
 
-        tabs.setWidth("100%");
         List<CategoryType> categoryList = List.of(CategoryType.values());
         for (CategoryType category : categoryList) {
             tabs.add(new Tab(category.label));
         }
-        add(tabs);
-
 
         TextField filterText = new TextField();
-        filterText.setId("filterText");
+        filterText.setId("product-view-filter_text");
         filterText.setValueChangeMode(ValueChangeMode.EAGER);
 
 
@@ -80,7 +82,8 @@ public class ProductView extends VerticalLayout {
             productCardsLayout.removeAll();
             productCardsLayout.add(productCard.createProductCards(productService.productFilter(e.getValue())));
         });
-        filterText.setPlaceholder("Produktnamen oder Id...");
+        filterText.setPlaceholder("Name oder Artikelnummer...");
+        filterText.setPrefixComponent(VaadinIcon.SEARCH.create());
         filterText.setClearButtonVisible(true);
 
         tabs.setSelectedIndex(0);
@@ -88,8 +91,7 @@ public class ProductView extends VerticalLayout {
                 setContent(event.getSelectedTab().getLabel())
         );
 
-        add(filterText);
-        add(productCardsLayout);
+        add(tabs,productViewTitle,filterText,productCardsLayout);
     }
 
     public void setContent(String value) {
@@ -123,27 +125,6 @@ public class ProductView extends VerticalLayout {
         productCardsLayout.removeAll();
         productCardsLayout.add(productCard.createProductCards(productList));
 
-//        switch (value){
-//            case "Alle Kategorien":
-//                System.out.println("Aufruf");
-//                filterText.addValueChangeListener(e -> {
-//                    System.out.println("Aufruf");
-//                    verticalLayout.removeAll();
-//                    verticalLayout.add(productCard.createProductCards(productService.productFilter(e.getValue())));
-//                });
-//                break;
-//            case "Smartphones": //TODO Geht net
-//                filterText.addValueChangeListener(e -> {
-//                    verticalLayout.removeAll();
-//                    verticalLayout.add(productCard.createProductCards(productService.productFilterTest(e.getValue(), CategoryType.SMARTPHONES)));
-//                });
-//                break;
-//
-//
-//
-//        }
     }
-
-
 
 }

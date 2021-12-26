@@ -1,0 +1,37 @@
+.orders-view-formlayout{
+    width: 1000px;
+    height: 500px;
+    margin: auto;
+}
+
+#orders-view-orders_title {
+
+}
+
+#orders-view-order_number_select{
+    margin-bottom: 30px;
+    width: 200px !important;
+}
+
+#orders-view-order_number{
+
+}
+
+#orders-view-billing_address{
+
+}
+
+#orders-view-delivery_address{
+
+}
+
+#orders-view-order_comment{
+
+}
+
+#orders-view-grid{
+    width: 1000px;
+    margin: auto;
+}
+
+

@@ -23,28 +23,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @CssImport(value = "/themes/onlineshop/components/navbar/menu-bar-button.css", themeFor = "vaadin-menu-bar-button")
 public class MainLayout extends AppLayout {
 
-    //Spaß Admin seite machen
-    /*
-    , offlineResources = {
-        "./styles/offline.css",
-        "./images/offline.png"}
-     */
-
     private String name;
 
-    /**
-     * Die Konstruktor erstellt eine Menüleiste für die Applikation.
-     */
     public MainLayout(){
         name = SecurityContextHolder.getContext().getAuthentication().getName();
         createMenuBar();
     }
-
-    /**
-     * Die Methode createMenuBar() baut die Menüleiste der Applikation
-     * zusammen. Sie besteht aus einem Titel, einer Begrüßung, dem Logout-
-     * Button und der Möglichkeit in einen Darkmode zu wechseln.
-     */
 
     private void createMenuBar(){
 
@@ -58,15 +42,25 @@ public class MainLayout extends AppLayout {
         menuBar.setOpenOnHover(true);
 
 
+        MenuItem productOverviewMenuItem = menuBar.addItem("Produkte");
+        productOverviewMenuItem.addClickListener(e -> UI.getCurrent().navigate(ProductView.class));
+
         MenuItem menuItem = menuBar.addItem(name);
 
         SubMenu subMenu = menuItem.getSubMenu();
 
-        HorizontalLayout profileMenuItemLayout = new HorizontalLayout(VaadinIcon.USER.create(), new Label("Profil"));
+
+        HorizontalLayout ordersMenuItemLayout = new HorizontalLayout(VaadinIcon.ARCHIVE.create(), new Label("Bestellungen"));
+        MenuItem orders = subMenu.addItem(ordersMenuItemLayout);
+        orders.addClickListener(e -> UI.getCurrent().navigate(OrdersView.class));
+
+
+        HorizontalLayout profileMenuItemLayout = new HorizontalLayout(VaadinIcon.USER.create(), new Label("Adressen"));
         MenuItem profile = subMenu.addItem(profileMenuItemLayout);
+        profile.addClickListener(e -> UI.getCurrent().navigate(AddressView.class));
 
 
-        MenuItem test = subMenu.addItem(new ButtonSwitchTheme());
+        MenuItem switchThemeMenuItem = subMenu.addItem(new ButtonSwitchTheme());
 
         subMenu.add(new Hr());
 
