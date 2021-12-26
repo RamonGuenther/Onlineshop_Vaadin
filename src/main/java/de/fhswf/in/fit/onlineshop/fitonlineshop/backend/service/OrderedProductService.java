@@ -5,6 +5,7 @@ import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Orders;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Product;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.primaryKeys.OrderedProductKey;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.repositories.OrderedProductRepository;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.repositories.OrdersRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,9 +21,11 @@ import java.util.List;
 public class OrderedProductService {
 
     private final OrderedProductRepository orderedProductRepository;
+    private final OrdersRepository ordersRepository;
 
-    public OrderedProductService(OrderedProductRepository orderedProductRepository) {
+    public OrderedProductService(OrderedProductRepository orderedProductRepository, OrdersRepository ordersRepository) {
         this.orderedProductRepository = orderedProductRepository;
+        this.ordersRepository = ordersRepository;
     }
 
     public void saveOrderedProduct(OrderedProduct orderedProduct){
@@ -36,6 +39,12 @@ public class OrderedProductService {
 
     public List<OrderedProduct> getOrderedProductsByOrder(Orders order){
         return orderedProductRepository.findAllById_Orders(order);
+    }
+
+    public void deleteOrderedProductById(OrderedProduct orderedProduct, Orders order){
+        order.getOrderedProducts().remove(orderedProduct);
+        ordersRepository.save(order);
+        orderedProductRepository.delete(orderedProduct);
     }
 
 }

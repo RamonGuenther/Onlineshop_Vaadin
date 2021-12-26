@@ -248,8 +248,8 @@ public class TestDataInit {
         System.out.println("Testuser wurden in der Datenbank gespeichert");
 
         Orders order1 = new Orders(
-                userService.findByUsername("user").getAddresses().stream().toList().get(0),
-                userService.findByUsername("user").getAddresses().stream().toList().get(1),
+                userService.findByUsername("user").getAdresses().stream().toList().get(0),
+                userService.findByUsername("user").getAdresses().stream().toList().get(1),
                 "Erste Bestellung :)");
 
         ordersService.saveOrder(order1);

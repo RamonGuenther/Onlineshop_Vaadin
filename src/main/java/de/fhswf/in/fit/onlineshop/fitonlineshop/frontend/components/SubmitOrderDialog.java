@@ -59,7 +59,7 @@ public class SubmitOrderDialog extends Dialog {
 
         User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        List<Address> addressList =  user.getAddresses();
+        List<Address> addressList =  user.getAdresses();
 
         List<String> streetList = new ArrayList<>();
 
