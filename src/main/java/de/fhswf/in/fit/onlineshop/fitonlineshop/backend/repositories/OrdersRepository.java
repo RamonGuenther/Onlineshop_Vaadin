@@ -3,6 +3,8 @@ package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.repositories;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * Das OrdersRepository bietet eine Reihe von Standardimplementierungen für
  * den Datenbankzugriff auf die Orders-Tabelle. Diese sind hier nicht

@@ -1,0 +1,45 @@
+#address-card-address_card_layout{
+
+}
+
+#address-card-layout-label_failure{
+    font-weight: bold;
+}
+
+#address-card-layout-icon_failure{
+    font-size: x-large;
+}
+
+#address-card-layout-failure_layout{
+    height: 30px;
+    width: 30px;
+    margin-top: 5px;
+}
+
+#address-card-label_name{
+    font-weight: bolder;
+    font-size: 16pt;
+    margin-bottom: 10px;
+}
+
+.address-card-buttons{
+    color: hsl(0, 35%, 36%);
+    width: 200px;
+}
+
+#address-card{
+    border: 1px solid hsl(0, 35%, 36%);
+    border-radius: 10px;
+    width: 500px !important;
+    margin-bottom: 20px;
+    margin-left: 0px;
+}
+
+.address-card-labels{
+    margin-top: -2px;
+    font-size: 14pt;
+}
+
+#address-card-phone_number{
+    margin-top: 15px;
+}

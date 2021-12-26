@@ -23,7 +23,7 @@ public class User {
 
     private String username;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private Set<Address> adresses;
 
     @OneToMany
@@ -80,6 +80,10 @@ public class User {
 
     public void addAddress(Address address){
         this.adresses.add(address);
+    }
+
+    public void deleteAddress(Address address){
+        this.adresses.remove(address);
     }
 
     public void addOrder(Orders order){

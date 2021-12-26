@@ -3,6 +3,8 @@ package de.fhswf.in.fit.onlineshop.fitonlineshop.backend.repositories;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * Das AddressRepository bietet eine Reihe von Standardimplementierungen für
  * den Datenbankzugriff auf die Address-Tabelle. Diese sind hier nicht

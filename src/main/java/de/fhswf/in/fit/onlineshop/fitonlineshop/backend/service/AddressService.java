@@ -25,6 +25,10 @@ public class AddressService {
         addressRepository.save(address);
     }
 
+    public void deleteAddress(Address address){
+        addressRepository.delete(address);
+    }
+
     public Address getAddressById(Long id){
         return addressRepository.getById(id);
     }
@@ -32,4 +36,6 @@ public class AddressService {
     public List<Address> getAllAddresses(){
         return addressRepository.findAll();
     }
+
+
 }

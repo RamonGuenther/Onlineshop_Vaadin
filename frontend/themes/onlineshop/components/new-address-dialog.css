@@ -1,0 +1,24 @@
+#new-address-dialog-title{
+    font-size: 20pt;
+}
+
+#new-address-dialog-form{
+
+}
+
+#new-address-dialog-buttonbox{
+    margin-left: 15px;
+}
+
+.new-address-dialog-buttons{
+    margin-top: 20px;
+    margin-left: 25px;
+    margin-right: 25px;
+    width: 200px;
+    background-color: hsl(0, 35%, 36%);
+    color: white;
+}
+
+#new-address-dialog{
+    margin-top: -20px;
+}

@@ -1,11 +1,10 @@
-#address-view-select_address_id{
-
+#address-view-layout{
+    margin-left: 100px;
 }
 
-#address-view-title{
-
-}
-
-.address-view-formlayout{
-
+#address-view-layout-add{
+    margin-top: 55px;
+    width: 20px;
+    background-color: hsl(0, 35%, 36%);
+    color: white;
 }
