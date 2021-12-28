@@ -1,0 +1,35 @@
+
+#submit-order-dialog-close_button{
+    margin-left: 950px;
+    background-color: hsl(0, 35%, 36%);
+    color: white;
+}
+
+
+.submit-order-dialog-formlayout{
+
+}
+
+#submit-order-dialog-title{
+    margin-bottom: 30px;
+}
+
+
+#submit-order-dialog-order_comment{
+    margin-top: 30px;;
+    height: 100px;
+}
+
+.submit-order-dialog-button_layout{
+    margin-top: 60px;
+    margin-left: 200px;
+
+}
+
+
+.submit-order-dialog-submit_cancel_button{
+    width: 200px;
+    margin-left: 70px;
+    background-color: hsl(0, 35%, 36%);
+    color: white;
+}

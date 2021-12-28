@@ -26,25 +26,26 @@ import java.util.List;
 @CssImport("/themes/onlineshop/views/orders-view.css")
 public class OrdersView extends VerticalLayout {
 
-    private final Grid<OrderedProduct> orderedProductGrid;
-    private final Label orderNumber;
-    private final Label billingAddressStreet;
-    private final Label deliveryAddressStreet;
-    private final Label orderComment;
-    private final FormLayout formLayout;
-    private final Label billingAddressPlace;
-    private final Label billingAddressPhoneNumber;
-    private final Label billingAddressMail;
-    private final Label billingAddressName;
-    private final Label deliveryAddressName;
-    private final Label deliveryAddressPlace;
-    private final Label deliveryAddressPhoneNumber;
-    private final Label deliveryAddressMail;
-    private final Label billingAddressCountry;
-    private final Label deliveryAddressCountry;
+    private Grid<OrderedProduct> orderedProductGrid;
+    private Label orderNumber;
+    private Label billingAddressStreet;
+    private Label deliveryAddressStreet;
+    private Label orderComment;
+    private FormLayout formLayout;
+    private Label billingAddressPlace;
+    private Label billingAddressPhoneNumber;
+    private Label billingAddressMail;
+    private Label billingAddressName;
+    private Label deliveryAddressName;
+    private Label deliveryAddressPlace;
+    private Label deliveryAddressPhoneNumber;
+    private Label deliveryAddressMail;
+    private Label billingAddressCountry;
+    private Label deliveryAddressCountry;
     private List<OrderedProduct> orderedProducts;
     private double gesamtbetrag;
 
+    //TODO SQL befehl der alle Orders eines benutzers findet die bestellung sind , und einen Befehl um den Warenkorb zu finden!
     public OrdersView(OrdersService ordersService, UserService userService) {
 
         H1 ordersTitle = new H1("Bestellungen");
@@ -53,6 +54,11 @@ public class OrdersView extends VerticalLayout {
         User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
         List<Orders> orders = ordersService.findOrdersByUser(user);
+
+        if(orders.isEmpty()){
+            add(ordersTitle,new Label("Es wurden keine Bestellungen gefunden!"));
+            return;
+        }
 
         List<String> ordersId = new ArrayList<>();
 

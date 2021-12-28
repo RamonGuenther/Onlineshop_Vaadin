@@ -1,6 +1,6 @@
 .product-details-view-product_card_layout {
-    border: 3px solid hsl(0, 35%, 36%);
-    border-radius: 5px;
+    border: 2px solid hsl(0, 35%, 36%);
+    border-radius: 10px;
     width: 1200px;
     margin: 50px auto auto;
     padding: 20px;
@@ -25,7 +25,6 @@
 
 .product-details-view-image_buttons_layout {
     margin-left: 100px;
-
 }
 
 .product-details-view-details_title{
@@ -47,6 +46,18 @@
 }
 
 .product-details-view-image_layout{
-    width: 350px !important;
+
 }
 
+
+.product-details-view-image_and_button_layout{
+    margin-right: -200px;
+}
+
+#product-details-view-image_counter{
+    margin-top: 5px;
+}
+
+.product-details-view-buttons_Picture{
+    background-color: hsl(0, 35%, 36%);
+}

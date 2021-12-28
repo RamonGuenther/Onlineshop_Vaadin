@@ -11,10 +11,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
-import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.OrderedProduct;
-import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Orders;
-import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Product;
-import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.User;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.*;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.primaryKeys.OrderedProductKey;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.OrderedProductService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.OrdersService;
@@ -43,8 +40,9 @@ public class ProductDetailsView extends HorizontalLayout implements BeforeEnterO
     private final UserService userService;
     private final OrdersService ordersService;
 
-    private List<Image> imageList;
+    private List<ProductImage> imageList;
     private Label productAvailability;
+    private int counter;
 
     public ProductDetailsView(ProductService productService, OrderedProductService orderedProductService, UserService userService, OrdersService ordersService) {
         this.productService = productService;
@@ -100,27 +98,55 @@ public class ProductDetailsView extends HorizontalLayout implements BeforeEnterO
         productDetailsLayout.setClassName("product-form-layout-product_details_layout");
 
 
-        imageList = product.getVaadinImageList();
-        image = product.getMainProductImage();
+        imageList = product.getImages();
+        image = imageList.get(0).getVaadinImage();
         image.setId("product-details-view-product_image");
 
         HorizontalLayout imageButtonsLayout = new HorizontalLayout();
         imageButtonsLayout.setClassName("product-details-view-image_buttons_layout");
         Button buttonLastPicture = new Button(VaadinIcon.ANGLE_LEFT.create());
+        buttonLastPicture.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonLastPicture.setClassName("product-details-view-buttons_Picture");
         Button buttonNextPicture = new Button(VaadinIcon.ANGLE_RIGHT.create());
-        imageButtonsLayout.add(buttonLastPicture, buttonNextPicture);
+        buttonNextPicture.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonNextPicture.setClassName("product-details-view-buttons_Picture");
+        Label imageCounter = new Label("1/" + imageList.size());
+        imageCounter.setId("product-details-view-image_counter");
+        imageButtonsLayout.add(buttonLastPicture, imageCounter, buttonNextPicture);
 
         imageLayout = new VerticalLayout();
         imageLayout.setClassName("product-details-view-image_layout");
-        imageLayout.add(image, imageButtonsLayout);
+        imageLayout.add(image);
 
-        buttonLastPicture.addClickListener(e->{
+        VerticalLayout imageAndButtonLayout = new VerticalLayout();
+        imageAndButtonLayout.setClassName("product-details-view-image_and_button_layout");
+        imageAndButtonLayout.add(imageLayout, imageButtonsLayout);
 
+        counter = 0; //für den index der Imageliste der Bilder und Anzeigen des aktuellen Stands
+        buttonNextPicture.addClickListener(e->{
+            if(counter == imageList.size()-1){
+                System.out.println("ende erreicht");
+                return;
+            }
+            counter++;
+            imageCounter.setText((counter+1 + "/"+ imageList.size()));
+            imageLayout.removeAll();
+            image = imageList.get(counter).getVaadinImage();
+            image.setId("product-details-view-product_image");
+            imageLayout.add(image);
         });
 
-        buttonNextPicture.addClickListener(e->{
-
-
+        buttonLastPicture.addClickListener(e->{
+            if(counter <= 0){
+                System.out.println("ende erreicht");
+                return;
+            }
+            counter--;
+            imageCounter.setText((counter+1 + "/"+ imageList.size()));
+            imageLayout.removeAll();
+            image = imageList.get(counter).getVaadinImage();
+            image.setId("product-details-view-product_image");
+            imageLayout.add(image);
         });
 
         addToCartButton.addClickListener(event->{
@@ -142,7 +168,7 @@ public class ProductDetailsView extends HorizontalLayout implements BeforeEnterO
                         productService.saveProduct(product);
                         op.setAmount(op.getAmount() + 1);
                         orderedProductService.saveOrderedProduct(op);
-                        productAvailability.setText("Auf Lager: " + product.getInStock());
+                        productAvailability.setText(String.valueOf(product.getInStock()));
                         NotificationSuccess.show("Das Produkt " + product.getName() + " wurde dem Warenkorb hinzugefügt");
                         return;
                     }
@@ -158,7 +184,7 @@ public class ProductDetailsView extends HorizontalLayout implements BeforeEnterO
 
                 product.setInStock(product.getInStock() - 1);
                 productService.saveProduct(product);
-                productAvailability.setText("Auf Lager: " + product.getInStock());
+                productAvailability.setText(String.valueOf(product.getInStock()));
 
                 NotificationSuccess.show("Das Produkt " + product.getName() + " wurde dem Warenkorb hinzugefügt");
             }
@@ -167,7 +193,7 @@ public class ProductDetailsView extends HorizontalLayout implements BeforeEnterO
             }
         });
 
-        add(imageLayout, productDetailsLayout, addToCartButton);
+        add(imageAndButtonLayout, productDetailsLayout, addToCartButton);
     }
 
     @Override
@@ -183,20 +209,21 @@ public class ProductDetailsView extends HorizontalLayout implements BeforeEnterO
         createView();
     }
 
-    private Image getNext(Image image) {
-        int idx = imageList.indexOf(image);
-        System.out.println(idx);
-        if (idx < 0 || idx+1 == imageList.size()){
-            return null;
-        }
-        return imageList.get(idx + 1);
-    }
-
-    private Image getPrevious(Image image) {
-        int idx = imageList.indexOf(image);
-        if (idx <= 0) {
-            return null;
-        }
-        return imageList.get(idx - 1);
-    }
+//    private Image getNext(Image image) {
+//        int idx = imageList.indexOf(image);
+//        System.out.println(idx);
+//        if (idx < 0 || idx+1 == imageList.size()){
+//            return null;
+//        }
+//        return imageList.get(idx + 1);
+//    }
+//
+//    private Image getPrevious(Image image) {
+//        int idx = imageList.indexOf(image);
+//        System.out.println(idx);
+//        if (idx <= 0) {
+//            return null;
+//        }
+//        return imageList.get(idx - 1);
+//    }
 }

@@ -1,10 +1,15 @@
+#button-switch-theme-label{
+    margin-top: 3px;
+}
+
 .iconSunMoon {
+    margin-left: -2px;
+    margin-right: -4px;
     height: 30px;
     width: 30px;
 }
 
 .themeButtonPosition {
-
 }
 
 #buttonLightMode {
@@ -14,4 +19,5 @@
 #buttonDarkMode {
     color: #f1c40f;
 }
+
 

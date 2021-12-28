@@ -12,7 +12,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 public class NotificationSuccess extends Notification {
 
     public NotificationSuccess(){
-        setDuration(5000);
+        setDuration(3000);
         setPosition(Position.BOTTOM_START);
         addThemeVariants(NotificationVariant.LUMO_SUCCESS);
     }

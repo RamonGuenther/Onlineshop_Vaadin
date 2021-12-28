@@ -1,0 +1,49 @@
+
+#shopping-cart-view-title{
+
+}
+
+
+
+#shopping-cart-view-grid{
+    width: 1000px;
+    height: 500px;
+}
+
+
+.shopping-cart-view-shopping_cart_layout{
+    margin: auto;
+}
+
+
+
+/* Alle Buttons */
+
+#shopping-cart-view-save_button{
+    background-color: hsl(85, 100%, 34%);
+    color: white;
+}
+
+#shopping-cart-view-cancel_button{
+    background-color: hsl(0, 67%, 25%);
+    color: white;
+}
+
+.shopping-cart-view-grid_buttons{
+    margin-left: 10px;
+}
+
+#shopping-cart-view-order_button{
+    width: 200px;
+    margin-top: 30px;
+    background-color: hsl(0, 35%, 36%);
+    color: white;
+}
+
+#shopping-cart-view-update_amount_button{
+    color: hsl(0, 35%, 36%);
+}
+
+#shopping-cart-view-delete_orderedProduct_button{
+    color: hsl(0, 35%, 36%);
+}

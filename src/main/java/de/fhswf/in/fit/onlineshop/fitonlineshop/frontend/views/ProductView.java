@@ -17,34 +17,8 @@ import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.ProductCard;
 
 import java.util.List;
 
-/**
- * TODO: Blatt 6
- *      - F050: Benutzer kann Kategorien eines Produkts einsehen. done
- *      - F060: Benutzer kann Produkte einer Kategorie auflisten lassen. done
- *      - F020: Benutzer kann Bilder zu einem Produkt einsehen. done
- *
- * F010: Benutzer kann Produkte einsehen. done
- * F030: Benutzer kann Preise zu einem Produkt einsehen.done
- * F040: Benutzer sieht, ob ein Produkt verfügbar ist. done
- * F070: Benutzer kann nach einer Produktnummer ein Produkt suchen. done
- * F080: Benutzer kann nach einem Produktnamen ein Produkt suchen. done
-*
- * TODO: Blatt 7
- * <p>
- * F010: Benutzer kann verfügbare Produkte in seinen Warenkorb ablegen.
- * F020: Benutzer kann Produkte aus seinem Warenkorb entfernen.
- * F030: Benutzer kann gewünschte Anzahl eines zu bestellenden Produkts wählen.
- * F040: Benutzer kann sich einloggen.
- * F050: Eingeloggte Benutzer können Adressen hinzufügen
- * F060: Eingeloggter Benutzer kann seinen Warenkorb mit gewählter Adresse
- * bestellen.
- * F070: Eingeloggter Benutzer kann seine Bestellungen einsehen.
- * F080: Eingeloggter Benutzer kann seine Adressen einsehen.
- * F090: Eingeloggter Benutzer kann seine Adressen entfernen.
- * F100: Eingeloggte Benutzer können sich ausloggen.
- */
 @Route(value = "produkte", layout = MainLayout.class)
-@PageTitle("R & I | Produltübersicht")
+@PageTitle("R & I | Produktübersicht")
 @CssImport("/themes/onlineshop/views/product-view.css")
 public class ProductView extends VerticalLayout {
 
@@ -95,8 +69,6 @@ public class ProductView extends VerticalLayout {
     }
 
     public void setContent(String value) {
-        System.out.println("Aufruf");
-
         CategoryType categoryType;
 
         switch (value) {
@@ -118,10 +90,6 @@ public class ProductView extends VerticalLayout {
 
         productList.clear();
         productList = productService.findAllByCategory(categoryType);
-        System.out.println(productList.size());
-        for(Product product : productList){
-            System.out.println(product.getName());
-        }
         productCardsLayout.removeAll();
         productCardsLayout.add(productCard.createProductCards(productList));
 

@@ -1,61 +1,120 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.views;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.editor.Editor;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.dom.ThemeList;
+import com.vaadin.flow.router.*;
+import com.vaadin.flow.theme.lumo.Lumo;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.OrderedProduct;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Orders;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Product;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.User;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.*;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.ButtonSwitchTheme;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.NotificationError;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.SubmitOrderDialog;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
- * TODO: Warenkorb = OrderedProducts also muss man für den Bestllung abschicken eine new Order erstellen wo man Adressen auswählen kann
- *          leeres Orders objekt anlegen für später wenn man billing address und so im Warenkorb aussuchen muss und auf bestellen klickt damit der Warenkorb dann wieder leer ist
- *          - ImageList lösung finden 
+ * TODO: Leere adressliste Smiley!
  */
 @Route(value = "warenkorb", layout = MainLayout.class)
 @PageTitle("R & I | Warenkorb")
 @CssImport("/themes/onlineshop/views/shopping-cart-view.css")
 public class ShoppingCartView extends VerticalLayout {
 
-    private List<OrderedProduct> orderedProducts;
+    private Button orderButton;
+    private OrderedProduct orderedProductEdit;
+    private Button deleteOrderedProductButton;
+    private int temp;
     private double gesamtbetrag;
+    private Button updateAmountButton;
+    private boolean checkOperation; //boolean um herauszufinden ob gespeichert oder abgebrochen wurde beim Ändern der menge
 
-    public ShoppingCartView(ProductService productService, OrderedProductService orderedProductService, OrdersService ordersService, UserService userService, AddressService addressService){
+    public ShoppingCartView(ProductService productService,
+                            OrderedProductService orderedProductService,
+                            OrdersService ordersService,
+                            UserService userService,
+                            AddressService addressService) {
 
-        //TODO: Warenkorb menge anpassen oder direkt löschen
         H1 ordersTitle = new H1("Warenkorb");
+        ordersTitle.setId("shopping-cart-view-title");
 
         User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Orders order = user.getShoppingCart();
         List<OrderedProduct> orderedProducts = order.getOrderedProducts();
 
+
         Grid<OrderedProduct> orderedProductGrid = new Grid<>();
+        orderedProductGrid.setId("shopping-cart-view-grid");
+
         orderedProductGrid.setItems(orderedProducts);
 
         orderedProductGrid.addColumn(orders1 -> orders1.getId().getProduct().getName()).setHeader("Produktname");
-        orderedProductGrid.addColumn(OrderedProduct::getAmount).setHeader("Menge");
+        orderedProductGrid.addColumn(OrderedProduct::getAmount).setHeader(createAmountCellHeader());
         orderedProductGrid.addColumn(price -> price.getId().getProduct().getPrice() + " €").setHeader("Einzelpreis");
         orderedProductGrid.addColumn(price -> price.getId().getProduct().getPrice() * price.getAmount() + " €").setHeader("Gesamtpreis");
 
+        orderedProductGrid.getColumns().get(0).setWidth("300px");
 
+        gesamtbetrag = 0;
+
+        for (OrderedProduct orderedProduct : orderedProducts) {
+            gesamtbetrag += orderedProduct.getId().getProduct().getPrice() * orderedProduct.getAmount();
+        }
+
+
+        orderedProductGrid.getColumns().get(0).setFooter(
+                "Artikel: " + orderedProducts.size() + "       |       Gesamtbetrag: " + gesamtbetrag + "€"
+        );
+
+        orderedProductGrid.addComponentColumn(item -> {
+            deleteOrderedProductButton = new Button(VaadinIcon.TRASH.create());
+            deleteOrderedProductButton.setId("shopping-cart-view-delete_orderedProduct_button");
+            deleteOrderedProductButton.addClickListener(e -> {
+                Product product = item.getId().getProduct();
+                product.setInStock(product.getInStock() + item.getAmount());
+                productService.saveProduct(product);
+                orderedProductService.deleteOrderedProductById(item, order);
+//                UI.getCurrent().getPage().reload();
+                orderedProductGrid.getDataProvider().refreshAll();
+                gesamtbetrag = 0;
+                for (OrderedProduct orderedProduct : orderedProducts) {
+                    gesamtbetrag = orderedProduct.getId().getProduct().getPrice() * orderedProduct.getAmount() + gesamtbetrag;
+                }
+                orderedProductGrid.getColumns().get(0).setFooter(
+                        "Artikel: " + orderedProducts.size() + "       |       Gesamtbetrag: " + gesamtbetrag + "€"
+                );
+                if(orderedProducts.isEmpty()){
+                    orderButton.setVisible(false);
+                }
+            });
+            return deleteOrderedProductButton;
+        });
+
+        orderedProductGrid.addItemDoubleClickListener(e -> {
+            UI.getCurrent().navigate(ProductDetailsView.class, new RouteParameters(
+                    new RouteParam("productId", e.getItem().getId().getProduct().getId().toString())));
+        });
+
+        //Binder spaß
 
         Editor<OrderedProduct> editor = orderedProductGrid.getEditor();
 
@@ -63,29 +122,49 @@ public class ShoppingCartView extends VerticalLayout {
 
         editor.setBinder(binder);
 
-        Select<Integer> countrySelect = new Select<>();
-        List<Integer > stringList = new ArrayList<>();
-        stringList.add(1);
-        stringList.add(2);
+        IntegerField amountIntegerField = new IntegerField();
+        amountIntegerField.setMin(1);
+        amountIntegerField.setHasControls(true);
 
         //Binder spaß
-        countrySelect.setItems(stringList);
-        binder.bind(countrySelect,"amount");
-        orderedProductGrid.getColumns().get(1).setEditorComponent(countrySelect);
+        binder.bind(amountIntegerField, "amount");
+        orderedProductGrid.getColumns().get(1).setEditorComponent(amountIntegerField);
 
-//        countrySelect.addValueChangeListener(e -> {
-//            System.out.println("Apfel");
-//            editor.cancel();
-//           });
-
-        orderedProductGrid.addItemDoubleClickListener( e -> {
-            countrySelect.setItems(1,4,5,6,7);
-            System.out.println(e.getItem().getAmount());
-            orderedProductGrid.getEditor().editItem(e.getItem());
-            System.out.println(e.getItem().getAmount());
+        //Listener, wenn auf Zeile geklickt wird
+        orderedProductGrid.addSelectionListener(event -> {
+            if (event.getFirstSelectedItem().isEmpty()) {
+                orderedProductEdit = null;
+                return;
+            }
+            orderedProductEdit = event.getFirstSelectedItem().get();
         });
 
-        orderedProductGrid.getEditor().addCloseListener(event -> {
+        //Listener für den Bleistift
+        updateAmountButton.addClickListener(e -> {
+            if (orderedProductEdit == null) {
+                NotificationError.show("Bitte eine Zeile auswählen und wieder auf den Stift klicken!");
+                return;
+            }
+            editor.editItem(orderedProductEdit);
+        });
+
+
+        //Listener, wenn der Editor geöffnet wird
+        editor.addOpenListener(e -> { //orderedProductGrid.getEditor().addOpenListener() geht auch
+            amountIntegerField.setMax(e.getItem().getId().getProduct().getInStock() + e.getItem().getAmount());
+            temp = e.getItem().getAmount();
+        });
+
+        //Listener, wenn der Editor geschlossen wird egal ob close oder cancel
+        editor.addCloseListener(event -> {
+            if (!checkOperation) {
+                UI.getCurrent().getPage().reload();
+                return;
+            }
+            Product product = event.getItem().getId().getProduct();
+            product.setInStock(product.getInStock() + temp - event.getItem().getAmount());
+            productService.saveProduct(product);
+
             orderedProductService.saveOrderedProduct(event.getItem());
             gesamtbetrag = 0;
             for (OrderedProduct orderedProduct : orderedProducts) {
@@ -96,52 +175,68 @@ public class ShoppingCartView extends VerticalLayout {
             );
         });
 
-        //Binder Spaß ende
 
-//       orderedProductGrid.addComponentColumn(amount -> {
-//                    Button edit = new Button("Edit");
-//                    edit.addClassName("edit");
-//                    edit.addClickListener(e -> {
-//                        editor.editItem(amount);
-//                    });
-//                    edit.setEnabled(!editor.isOpen());
-//                    return edit;
-//                }).setHeader("lol");
-
-
-        orderedProductGrid.addComponentColumn(item -> {
-            Button delete = new Button(VaadinIcon.TRASH.create());
-            delete.addClickListener(e -> {
-                Product product = item.getId().getProduct();
-                product.setInStock(product.getInStock() + item.getAmount());
-                productService.saveProduct(product);
-                orderedProductService.deleteOrderedProductById(item, order);
-                UI.getCurrent().getPage().reload();
-            });
-
-            return delete;
+        Button saveButton = new Button(VaadinIcon.CHECK.create());
+        saveButton.addClickListener(e -> {
+            if (amountIntegerField.getValue() < amountIntegerField.getMin()) {
+                NotificationError.show("Ungültige Eingabe der Menge!");
+                return;
+            } else if (amountIntegerField.getValue() > amountIntegerField.getMax()) {
+                NotificationError.show("Die maximale Anzahl an verfügbaren Artikeln beträgt: " + amountIntegerField.getMax() + "!");
+                return;
+            }
+            checkOperation = true;
+            editor.closeEditor();
         });
+        saveButton.setId("shopping-cart-view-save_button");
+        saveButton.setClassName("shopping-cart-view-grid_buttons");
+
+        Button cancelButton = new Button(VaadinIcon.CLOSE.create());
+        cancelButton.addClickListener(e -> {
+            checkOperation = false;
+            editor.cancel();
+        });
+        cancelButton.setId("shopping-cart-view-cancel_button");
+        cancelButton.setClassName("shopping-cart-view-grid_buttons");
+
+        Div buttons = new Div(saveButton, cancelButton);
+
+        //Hier wird die Komponente gesetzt die greifen soll, wenn der Editor geöffnet wird
+        orderedProductGrid.getColumns().get(4).setEditorComponent(buttons);
 
 
-        gesamtbetrag = 0;
+        //Alles um den Bestellvorgang abzuschließen
 
-        for (OrderedProduct orderedProduct : orderedProducts) {
-            gesamtbetrag = orderedProduct.getId().getProduct().getPrice() * orderedProduct.getAmount() + gesamtbetrag;
+        orderButton = new Button("Bestellen");
+        orderButton.setVisible(false);
+
+        if(!orderedProducts.isEmpty()){
+            orderButton.setVisible(true);
         }
 
+        orderButton.setId("shopping-cart-view-order_button");
 
-        orderedProductGrid.getColumns().get(0).setFooter(
-                "Artikel: " + orderedProducts.size() + "       |       Gesamtbetrag: " + gesamtbetrag + "€"
-        );
+        SubmitOrderDialog submitOrderDialog = new SubmitOrderDialog(userService, addressService, ordersService, gesamtbetrag);
 
-        Button orderButton = new Button("Bestellen");
+        orderButton.addClickListener(e ->{
+            submitOrderDialog.open();
+        });
 
-        add(ordersTitle, orderedProductGrid, orderButton);
+        Div shoppingCartLayout = new Div();
+        shoppingCartLayout.setClassName("shopping-cart-view-shopping_cart_layout");
+        shoppingCartLayout.add(ordersTitle, orderedProductGrid, orderButton);
+        add(shoppingCartLayout);
+    }
 
-        SubmitOrderDialog submitOrderDialog = new SubmitOrderDialog(userService,addressService, ordersService, gesamtbetrag);
-        //Warenkorb bestellen dann neue leere order erstellen und über order und user speichern! die bestellte order auf bestellt setzen und übber modal oder ähnliches adressen hinzufügen
-
-        orderButton.addClickListener(e ->submitOrderDialog.open());
+    private Component createAmountCellHeader() {
+        Span span = new Span("Menge");
+        updateAmountButton = new Button(VaadinIcon.PENCIL.create());
+        updateAmountButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+        updateAmountButton.setId("shopping-cart-view-update_amount_button");
+        HorizontalLayout layout = new HorizontalLayout(span, updateAmountButton);
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+        layout.setSpacing(false);
+        return layout;
     }
 
 

@@ -245,6 +245,16 @@ public class TestDataInit {
         User admin = new User("admin");
         userService.saveUser(admin);
 
+        User user2 = new User("user2");
+        userService.saveUser(user2);
+
+        //Ein leerer "Warenkorb" für User2
+        Orders order3 = new Orders();
+        ordersService.saveOrder(order3);
+        user2.addOrder(order3);
+        userService.saveUser(user2);
+
+
         System.out.println("Testuser wurden in der Datenbank gespeichert");
 
         Orders order1 = new Orders(
@@ -268,10 +278,9 @@ public class TestDataInit {
         //Damit es als Bestellung gekennzeichnet wird
         order1.setOrderState(OrderState.BESTELLT);
 
+        //Ein leerer "Warenkorb"
         Orders order2 = new Orders();
-
         ordersService.saveOrder(order1);
-
         ordersService.saveOrder(order2);
 
         System.out.println("Beispielbestellung angelegt");

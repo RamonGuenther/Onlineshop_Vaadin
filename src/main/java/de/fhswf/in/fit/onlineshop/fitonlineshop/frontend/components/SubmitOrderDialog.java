@@ -1,6 +1,8 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -8,8 +10,10 @@ import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.router.RouterLink;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Address;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Orders;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.User;
@@ -17,6 +21,8 @@ import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.enums.OrderStat
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.AddressService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.OrdersService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.UserService;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.views.AddressView;
+import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.views.ProductView;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
@@ -26,20 +32,20 @@ import java.util.List;
 @CssImport("/themes/onlineshop/components/submit-order-dialog.css")
 public class SubmitOrderDialog extends Dialog {
 
-    private final Label billingAddressStreet;
-    private final Label deliveryAddressStreet;
-    private final TextArea orderComment;
-    private final FormLayout formLayout;
-    private final Label billingAddressPlace;
-    private final Label billingAddressPhoneNumber;
-    private final Label billingAddressMail;
-    private final Label billingAddressName;
-    private final Label deliveryAddressName;
-    private final Label deliveryAddressPlace;
-    private final Label deliveryAddressPhoneNumber;
-    private final Label deliveryAddressMail;
-    private final Label billingAddressCountry;
-    private final Label deliveryAddressCountry;
+    private Label billingAddressStreet;
+    private Label deliveryAddressStreet;
+    private TextArea orderComment;
+    private FormLayout formLayout;
+    private Label billingAddressPlace;
+    private Label billingAddressPhoneNumber;
+    private Label billingAddressMail;
+    private Label billingAddressName;
+    private Label deliveryAddressName;
+    private Label deliveryAddressPlace;
+    private Label deliveryAddressPhoneNumber;
+    private Label deliveryAddressMail;
+    private Label billingAddressCountry;
+    private Label deliveryAddressCountry;
     private Address address;
     private Address address1;
 
@@ -49,17 +55,39 @@ public class SubmitOrderDialog extends Dialog {
         setCloseOnOutsideClick(false);
 
         Button closeButton = new Button(VaadinIcon.CLOSE_CIRCLE.create());
-        closeButton.setId("search-drive-result-view-close_button");
+        closeButton.setId("submit-order-dialog-close_button");
         closeButton.addClickListener(e -> close());
-        add(closeButton);
 
-        H2 ordersTitle = new H2("Bestellung abschließen");
+        H2 title = new H2("Bestellung abschließen");
+        title.setId("submit-order-dialog-title");
 
         Label totalLabel = new Label("Betrag: " + gesamtbetrag + "€");
 
         User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
         List<Address> addressList =  user.getAdresses();
+
+
+        if(addressList.size() == 0) {
+            setWidth("350px");
+            setHeight("100px");
+            setCloseOnEsc(true);
+            setCloseOnOutsideClick(true);
+
+            Label label = new Label("Es wurden keine Adressen gefunden.  ");
+            Button goToAddressButton = new Button("Adresse hinzufügen");
+            goToAddressButton.setIcon(VaadinIcon.ARROW_RIGHT.create());
+            goToAddressButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+
+            goToAddressButton.addClickListener(e->{
+                UI.getCurrent().navigate(AddressView.class);
+                this.close();
+            });
+
+            add(label, goToAddressButton);
+            return;
+        }
+
 
         List<String> streetList = new ArrayList<>();
 
@@ -74,7 +102,7 @@ public class SubmitOrderDialog extends Dialog {
         selectDeliveryAddress.setItems(streetList);
 
         formLayout = new FormLayout();
-        formLayout.setClassName("orders-view-formlayout");
+        formLayout.setClassName("submit-order-dialog-formlayout");
 
 
         H4 billingAddressTitle = new H4("Rechnungsadresse");
@@ -96,11 +124,11 @@ public class SubmitOrderDialog extends Dialog {
 
         orderComment = new TextArea();
         orderComment.setLabel("Bestellkommentar");
-        orderComment.setId("orders-view-order_comment");
+        orderComment.setId("submit-order-dialog-order_comment");
 
         formLayout.setClassName("orders-view-formlayout");
         formLayout.add(
-                ordersTitle,
+                title,
                 totalLabel,
                 selectDeliveryAddress, selectBillingAddress,
                 deliveryAddressTitle, billingAddressTitle,
@@ -116,7 +144,7 @@ public class SubmitOrderDialog extends Dialog {
         formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1, FormLayout.ResponsiveStep.LabelsPosition.TOP),
                 new FormLayout.ResponsiveStep("500px", 2, FormLayout.ResponsiveStep.LabelsPosition.TOP));
 
-        formLayout.setColspan(ordersTitle, 4);
+        formLayout.setColspan(title, 4);
         formLayout.setColspan(totalLabel, 4);
         formLayout.setColspan(orderComment, 4);
 
@@ -142,15 +170,17 @@ public class SubmitOrderDialog extends Dialog {
             billingAddressMail.setText(address1.getMail());
         });
 
-
         selectBillingAddress.setValue(streetList.get(0));
         selectDeliveryAddress.setValue(streetList.get(0));
 
         HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.setClassName("submit-order-dialog-button_layout");
 
         Button submitButton = new Button("Senden");
+        submitButton.setClassName("submit-order-dialog-submit_cancel_button");
 
         Button cancelButton = new Button("Abbrechen");
+        cancelButton.setClassName("submit-order-dialog-submit_cancel_button");
 
         buttonLayout.add(submitButton,cancelButton);
 
@@ -168,6 +198,9 @@ public class SubmitOrderDialog extends Dialog {
 
             user.addOrder(order2);
             userService.saveUser(user);
+            this.close();
+            NotificationSuccess.show("Die Bestellung wurde entgegen genommen.");
+            UI.getCurrent().navigate(ProductView.class);
         });
 
         cancelButton.addClickListener(e -> close());

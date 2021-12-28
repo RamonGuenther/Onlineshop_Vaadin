@@ -81,6 +81,9 @@ public class User {
     }
 
     public Orders getShoppingCart() {
+        if(orders.size() == 1){
+            return orders.get(0);
+        }
         return orders.get(orders.size() - 1);
     }
 

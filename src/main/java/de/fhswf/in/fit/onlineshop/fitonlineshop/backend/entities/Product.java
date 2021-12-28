@@ -23,7 +23,7 @@ public class Product {
     //TODO Funktioniert nicht wie gedacht XD
     @TableGenerator(name = "product_gen",initialValue = 10000, allocationSize = 100)
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "product_gen")
+    @GeneratedValue(strategy= GenerationType.IDENTITY, generator = "product_gen")
     private Long id;
 
     private String name;
@@ -104,10 +104,6 @@ public class Product {
         return categories;
     }
 
-    public String getMainCategory(){
-        return categories.stream().findFirst().get().getCategoryType().label;
-    }
-
     public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
@@ -134,24 +130,6 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /**
-     * Die Methode getVaadinImageList wandelt das Set von ProductImages in eine
-     * Liste mit Images von Vaadin um.
-     *
-     * @return  Liste mit Produkt-Images
-     */
-    public List<Image> getVaadinImageList(){
-        List<Image> list = new ArrayList<>();
-        Image image = new Image();
-        for(ProductImage productImage: productImages){
-            StreamResource resource = new StreamResource(productImage.getName(), () -> new ByteArrayInputStream(productImage.getData()));
-            image.setSrc(resource);
-            image.setAlt(productImage.getName());
-            list.add(image);
-        }
-        return list;
     }
 
     public List<CategoryType> getCategorieEnums(){

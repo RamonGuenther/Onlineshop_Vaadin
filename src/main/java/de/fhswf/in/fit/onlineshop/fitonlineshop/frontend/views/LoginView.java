@@ -1,10 +1,13 @@
 package de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.views;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.dom.ThemeList;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.StreamResource;
+import com.vaadin.flow.theme.lumo.Lumo;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Product;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.ProductService;
 
@@ -24,7 +27,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private LoginForm login;
 
 
-    public LoginView() {;
+    public LoginView() {
         getElement().getStyle().set("background", "hsl(0, 36%, 39%)");
 
         setSizeFull();

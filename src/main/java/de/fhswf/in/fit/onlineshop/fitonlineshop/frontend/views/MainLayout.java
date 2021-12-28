@@ -13,10 +13,14 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.server.PWA;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.ButtonSwitchTheme;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+/**
+ * Darkmode verschwindet wenn reload , theme switch text nicht genau unter adresse etc
+ */
 //PWA (Progressive Web-App - z.B. über Chrome)
 @PWA(name = "R & I - Onlineshop", shortName = "R & I", enableInstallPrompt = false)
 @CssImport("/themes/onlineshop/components/navbar/main-layout.css")
@@ -31,6 +35,9 @@ public class MainLayout extends AppLayout {
     }
 
     private void createMenuBar(){
+
+//        ThemeList themeList = UI.getCurrent().getElement().getThemeList();
+//        themeList.add(Lumo.DARK);
 
         H1 title = new H1("R & I");
         title.addClassName("main-layout-title");

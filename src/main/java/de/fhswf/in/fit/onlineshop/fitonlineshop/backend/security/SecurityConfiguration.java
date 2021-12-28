@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
                 .antMatchers("/").hasAnyAuthority("USER", "ADMIN")
 //                .antMatchers("/....").hasAuthority("USER")
-//                .antMatchers("/...").hasAuthority("ADMIN")
+                .antMatchers("/admin").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -86,7 +86,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .authorities("USER")
                     .build();
 
-        return new InMemoryUserDetailsManager(admin, user);
+        UserDetails user2 =
+                User
+                        .withUsername("user2")
+                        .password("{noop}password")
+                        .roles("USER")
+                        .authorities("USER")
+                        .build();
+
+        return new InMemoryUserDetailsManager(admin, user, user2);
     }
 
     /**

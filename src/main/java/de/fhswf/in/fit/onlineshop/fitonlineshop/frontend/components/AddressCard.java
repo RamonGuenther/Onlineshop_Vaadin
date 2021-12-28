@@ -48,16 +48,10 @@ public class AddressCard {
         addressCardLayout.setId("address-card-address_card_layout");
 
         if (user.getAdresses().isEmpty()) {
-            FormLayout horizontalLayout = new FormLayout();
-            Label label = new Label("Es wurden bisher keine Adressen angelegt");
-            label.setId("address-card-layout-label_failure");
-            Icon icon = new Icon(VaadinIcon.FROWN_O);
-            icon.setId("address-card-layout-icon_failure");
-            horizontalLayout.add(label, icon);
-            horizontalLayout.setClassName("address-card-layout-failure_layout");
-            addressCardLayout.add(horizontalLayout);
+            addressCardLayout.add(new Label("Es wurden bisher keine Adressen angelegt!"));
             return addressCardLayout;
         }
+
         for (Address address : user.getAdresses()) {
             addressCardLayout.add(createAddressCard(address));
         }

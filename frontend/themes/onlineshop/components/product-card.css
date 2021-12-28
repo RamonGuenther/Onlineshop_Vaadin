@@ -5,6 +5,7 @@
 
 #product-form-layout-product_name{
     font-weight: bold;
+    margin-bottom: 10px;
 }
 
 #product-form-layout-label_failure{
@@ -35,7 +36,7 @@
 
 .product-form-layout-product_card{
     border: 1px solid hsl(0, 35%, 36%);
-    border-radius: 5px;
+    border-radius: 10px;
     width: 800px;
     height: 250px;
     margin: 50px auto auto;

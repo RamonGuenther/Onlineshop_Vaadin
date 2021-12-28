@@ -55,7 +55,7 @@ public class OnlineshopUrlAuthenticationSuccessHandler
     protected String determineTargetUrl(final Authentication authentication) {
 
         Map<String, String> roleTargetUrlMap = new HashMap<>();
-        roleTargetUrlMap.put("ADMIN", "/produkte");
+        roleTargetUrlMap.put("ADMIN", "/admin");
         roleTargetUrlMap.put("USER", "/produkte");
 
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
