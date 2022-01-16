@@ -4,16 +4,21 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 
+/**
+ * Die Klasse AddressForm erstellt das Formular, um eine Adresse hinzuzufügen.
+ *
+ * @author Ivonne Kneißig & Ramon Günther
+ */
 public class AddressForm extends FormLayout {
 
-    private TextField firstName;
-    private TextField street;
-    private TextField place;
-    private TextField country;
-    private TextField postal;
-    private EmailField mail;
-    private TextField phone;
-    private TextField lastName;
+    private final TextField firstName;
+    private final TextField street;
+    private final TextField place;
+    private final TextField country;
+    private final TextField postal;
+    private final EmailField mail;
+    private final TextField phone;
+    private final TextField lastName;
 
     public AddressForm(){
         firstName = new TextField();

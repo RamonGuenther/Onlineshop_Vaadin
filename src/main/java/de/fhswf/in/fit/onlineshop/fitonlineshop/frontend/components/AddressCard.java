@@ -5,8 +5,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Address;
@@ -15,36 +13,34 @@ import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.AddressService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-
+/**
+ * Die Klasse AddressCard ist für das Erstellen der einzelnen "Adresskarten"
+ * zuständig.
+ *
+ * @author Ivonne Kneißig & Ramon Günther
+ */
 @CssImport("/themes/onlineshop/components/address-card.css")
 public class AddressCard {
 
     private final AddressService addressService;
     private final UserService userService;
 
-    private VerticalLayout addressCard;
-    private HorizontalLayout buttons;
-    private FormLayout addressCardLayout;
-    private User user;
-
-    private Label name;
-    private Label street;
-    private Label placeAndPostal;
-    private Label country;
-    private Label phoneNumber;
-    private Label mail;
-
-    private Button edit;
-    private Button delete;
+    private final User user;
 
     public AddressCard(AddressService addressService, UserService userService){
         this.addressService = addressService;
         this.userService = userService;
-        this.user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());;
+        this.user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
+    /**
+     * Erstellt anhand aller gespeicherten Adressen des Nutzers in der Datenbank und der
+     * Methode createProductCard, einzelne Karten, die dann zurückgegeben werden.
+     *
+     * @return Formlayout mit allen Produktkarten
+     */
     public FormLayout createAddressCards(){
-        addressCardLayout = new FormLayout();
+        FormLayout addressCardLayout = new FormLayout();
         addressCardLayout.setId("address-card-address_card_layout");
 
         if (user.getAdresses().isEmpty()) {
@@ -62,33 +58,39 @@ public class AddressCard {
         return addressCardLayout;
     }
 
+    /**
+     * Erstellt eine Adresskarte.
+     *
+     * @param address Adresse des Nutzers
+     * @return VerticalLayout mit der Adresskarte
+     */
     private VerticalLayout createAddressCard(Address address){
-        addressCard = new VerticalLayout();
-        buttons = new HorizontalLayout();
+        VerticalLayout addressCard = new VerticalLayout();
+        HorizontalLayout buttons = new HorizontalLayout();
         buttons.setId("address-card-buttonbox");
 
-        name = new Label(address.getFirstName() + " " + address.getLastName());
+        Label name = new Label(address.getFirstName() + " " + address.getLastName());
         name.setId("address-card-label_name");
-        street = new Label(address.getStreet());
+        Label street = new Label(address.getStreet());
         street.setClassName("address-card-labels");
-        placeAndPostal = new Label(address.getPostalCode() + " " + address.getPlace());
+        Label placeAndPostal = new Label(address.getPostalCode() + " " + address.getPlace());
         placeAndPostal.setClassName("address-card-labels");
-        country = new Label(address.getCountry());
+        Label country = new Label(address.getCountry());
         country.setClassName("address-card-labels");
-        phoneNumber = new Label(address.getPhoneNumber());
+        Label phoneNumber = new Label(address.getPhoneNumber());
         phoneNumber.setClassName("address-card-labels");
         phoneNumber.setId("address-card-phone_number");
-        mail = new Label(address.getMail());
+        Label mail = new Label(address.getMail());
         mail.setClassName("address-card-labels");
 
-        edit = new Button("Bearbeiten");
+        Button edit = new Button("Bearbeiten");
         edit.setClassName("address-card-buttons");
         edit.addClickListener(event -> {
             ChangeAddressDialog changeAddressDialog = new ChangeAddressDialog(addressService, userService, address);
             changeAddressDialog.open();
         });
 
-        delete = new Button("Entfernen");
+        Button delete = new Button("Entfernen");
         delete.setClassName("address-card-buttons");
         delete.addClickListener(event -> {
             user.deleteAddress(address);

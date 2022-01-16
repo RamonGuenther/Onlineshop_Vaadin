@@ -17,6 +17,12 @@ import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.ProductCard;
 
 import java.util.List;
 
+/**
+ * Die Klasse ProductView listet alle eingestellten Produkte für den Nutzer
+ * auf.
+ *
+ * @author Ivonne Kneißig & Ramon Günther
+ */
 @Route(value = "produkte", layout = MainLayout.class)
 @PageTitle("R & I | Produktübersicht")
 @CssImport("/themes/onlineshop/views/product-view.css")
@@ -68,6 +74,12 @@ public class ProductView extends VerticalLayout {
         add(tabs,productViewTitle,filterText,productCardsLayout);
     }
 
+    /**
+     * Beim Klick auf einen Tab werden nur noch die Artikel, bei denen die Kategorie
+     * zutrifft angezeigt.
+     *
+     * @param value Kategoriename
+     */
     public void setContent(String value) {
         CategoryType categoryType;
 

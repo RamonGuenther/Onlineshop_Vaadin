@@ -35,12 +35,8 @@ public class TestDataInit {
     @Autowired
     private UserService userService;
 
-    /**
-     * TODO:  - Product_image lässt sich vereinfachen in dem man in ProductImage das Set von produkten nicht nutzt das Ergebnis ist dasselbe
-     *         - statt set vllt doch eine Liste benutzen, da Sets in keiner bestimmten Reihenfolge werte speichern was doof ist das gleiche gilt auch für Kategorien
-     */
     @PostConstruct
-    private void initTestData(){
+    private void initTestData() {
 
         Category categoryTechnik = new Category(CategoryType.TECHNIK, "In der Kategorie Technik ist alles mögliche an Elektrogeräten zu finden.");
         Category categoryComputer = new Category(CategoryType.COMPUTER, "Stand-Pc, Laptops, Notebooks, Chromebooks und vieles mehr. Außerdem alles an Teilen, was du brauchst um die deinen eigenen PC zu bauen :)");
@@ -140,7 +136,7 @@ public class TestDataInit {
         game3.addImage(imageGame3);
         productService.saveProduct(game3);
 
-        Product pc1 = new Product("ASUS Zenbook Pro 15,6\"", 1105.00 , 5, "ASUS Zenbook Pro 15,6\" FHD i7-10870H 16GB/512GB SSD GTX1650 Win10 UX535LH-BN150T");
+        Product pc1 = new Product("ASUS Zenbook Pro 15,6\"", 1105.00, 5, "ASUS Zenbook Pro 15,6\" FHD i7-10870H 16GB/512GB SSD GTX1650 Win10 UX535LH-BN150T");
         pc1.addCategory(categoryComputer);
         pc1.addCategory(categoryTechnik);
         ProductImage imagePc1_1 = new ProductImage("10_asuszenbook.jpeg", ImageType.JPEG);
@@ -161,7 +157,7 @@ public class TestDataInit {
         pc1.addImage(imagePc1_4);
         productService.saveProduct(pc1);
 
-        Product pc2 = new Product("Surface Pro 8", 1538.00 , 3, "Microsoft Surface Pro 8, 13 Zoll 2-in-1 Tablet (Intel Core i5, 8GB RAM, 128GB SSD, Win 11 Home) Platin Grau");
+        Product pc2 = new Product("Surface Pro 8", 1538.00, 3, "Microsoft Surface Pro 8, 13 Zoll 2-in-1 Tablet (Intel Core i5, 8GB RAM, 128GB SSD, Win 11 Home) Platin Grau");
         pc2.addCategory(categoryComputer);
         pc2.addCategory(categoryTechnik);
         ProductImage imagePc2_1 = new ProductImage("14_surface8.jpeg", ImageType.JPEG);
@@ -182,7 +178,7 @@ public class TestDataInit {
         pc2.addImage(imagePc2_4);
         productService.saveProduct(pc2);
 
-        Product pc3 = new Product("HP Chromebook x2", 499.00 , 7, "Mit seinem ultraflachen Format ist das HP Chromebook x2 der ideale Begleiter, wohin es dich auch zieht. Mit Qualcomm Snapdragon 7c 4 GB RAM, 64 GB Speicher");
+        Product pc3 = new Product("HP Chromebook x2", 499.00, 7, "Mit seinem ultraflachen Format ist das HP Chromebook x2 der ideale Begleiter, wohin es dich auch zieht. Mit Qualcomm Snapdragon 7c 4 GB RAM, 64 GB Speicher");
         pc3.addCategory(categoryComputer);
         pc3.addCategory(categoryTechnik);
         ProductImage imagePc3_1 = new ProductImage("18_chromebook.jpeg", ImageType.JPEG);
@@ -199,7 +195,7 @@ public class TestDataInit {
         pc3.addImage(imagePc3_3);
         productService.saveProduct(pc3);
 
-        Product tv = new Product("LG signature OLED88Z19LA OLED TV", 29999.00 , 1, "LG signature OLED88Z19LA OLED TV (Flat, 88 Zoll / 222 cm, UHD 8K, SMART TV, webOS 6.0 mit LG ThinQ)");
+        Product tv = new Product("LG signature OLED88Z19LA OLED TV", 29999.00, 1, "LG signature OLED88Z19LA OLED TV (Flat, 88 Zoll / 222 cm, UHD 8K, SMART TV, webOS 6.0 mit LG ThinQ)");
         tv.addCategory(categoryFernseherHeimkino);
         tv.addCategory(categoryTechnik);
         ProductImage imageTv_1 = new ProductImage("21_lgfernseher.png", ImageType.JPEG);

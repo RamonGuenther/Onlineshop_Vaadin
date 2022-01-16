@@ -18,26 +18,29 @@ import org.vaadin.addons.badge.Badge;
 
 import java.util.List;
 
+/**
+ * Die Klasse Productcard ist für das Erstellen der einzelnen "Produktkarten"
+ * zuständig.
+ *
+ * @author Ivonne Kneißig & Ramon Günther
+ */
 @CssImport("/themes/onlineshop/components/product-card.css")
 public class ProductCard {
 
-    private HorizontalLayout productCardLayout;
-    private Image image;
-    private FormLayout formLayout;
-    private Label productName;
-    private Label productPrice;
-    private Label productDescription;
     private HorizontalLayout badgeLayout;
-    private Label productAvailability;
-    private Label productId;
-    private Button detailsButton;
-    private VerticalLayout imageLayout;
 
     public ProductCard() {
 
     }
 
 
+    /**
+     * Erstellt mithilfe einer Liste von Produkten und der Methode createProductCard,
+     * einzelne Karten, die dann zurückgegeben werden.
+     *
+     * @param productList Liste der Produkte
+     * @return VerticalLayout mit allen Produktkarten
+     */
     public VerticalLayout createProductCards(List<Product> productList) {
         VerticalLayout verticalLayout = new VerticalLayout();
 
@@ -58,26 +61,32 @@ public class ProductCard {
         return verticalLayout;
     }
 
-    public HorizontalLayout createProductCard(Product product) {
+    /**
+     * Erstellt eine Produktkarte.
+     *
+     * @param product ausgewähltes Produkt
+     * @return HorizontalLayout mit einer Produktkarte
+     */
+    private HorizontalLayout createProductCard(Product product) {
 
-        productCardLayout = new HorizontalLayout();
+        HorizontalLayout productCardLayout = new HorizontalLayout();
         productCardLayout.addClassName("product-form-layout-product_card");
 
-        imageLayout = new VerticalLayout();
+        VerticalLayout imageLayout = new VerticalLayout();
         imageLayout.setClassName("product-form-layout-image_layout");
-        image = product.getMainProductImage();
+        Image image = product.getMainProductImage();
         image.setId("product-form-layout-product_image");
         imageLayout.add(image);
 
-        formLayout = new FormLayout();
+        FormLayout formLayout = new FormLayout();
         formLayout.setId("product-form-layout-form_layout");
 
-        productName = new Label(product.getName());
+        Label productName = new Label(product.getName());
         productName.setId("product-form-layout-product_name");
 
-        productPrice = new Label(product.getPrice() + " €");
+        Label productPrice = new Label(product.getPrice() + " €");
 
-        productDescription = new Label();
+        Label productDescription = new Label();
 
 
         badgeLayout = new HorizontalLayout();
@@ -89,14 +98,15 @@ public class ProductCard {
         });
 
 
-        productAvailability = new Label("Auf Lager: " + product.getInStock());
+        Label productAvailability = new Label("Auf Lager: " + product.getInStock());
 
-        productId = new Label("Produkt Id: " + product.getId());
+        Label productId = new Label("Produkt Id: " + product.getId());
 
-        detailsButton = new Button("Details");
+        Button detailsButton = new Button("Details");
         detailsButton.setId("product-form-layout-details_button");
         detailsButton.setIcon(VaadinIcon.SEARCH.create());
 
+        //Route Parameters
         detailsButton.addClickListener(e -> {
             UI.getCurrent().navigate(ProductDetailsView.class, new RouteParameters(
                     new RouteParam("productId", product.getId().toString())));
@@ -110,59 +120,5 @@ public class ProductCard {
         productCardLayout.add(imageLayout, formLayout, detailsButton);
 
         return productCardLayout;
-    }
-
-
-    public VerticalLayout getImageLayout() {
-        return imageLayout;
-    }
-
-    public HorizontalLayout getProductCardLayout() {
-        return productCardLayout;
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
-    public FormLayout getFormLayout() {
-        return formLayout;
-    }
-
-    public Label getProductName() {
-        return productName;
-    }
-
-    public Label getProductPrice() {
-        return productPrice;
-    }
-
-    public Label getProductDescription() {
-        return productDescription;
-    }
-
-    public HorizontalLayout getBadgeLayout() {
-        return badgeLayout;
-    }
-
-    public Label getProductAvailability() {
-        return productAvailability;
-    }
-
-    public Label getProductId() {
-        return productId;
-    }
-
-    public Button getDetailsButton() {
-        return detailsButton;
-    }
-
-
-    public void setProductAvailabilityText(String value) {
-        productAvailability.setText(value);
     }
 }

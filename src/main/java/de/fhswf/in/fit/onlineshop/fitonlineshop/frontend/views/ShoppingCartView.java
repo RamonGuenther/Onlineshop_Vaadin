@@ -6,7 +6,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.grid.editor.Editor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
@@ -17,15 +16,12 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.dom.ThemeList;
 import com.vaadin.flow.router.*;
-import com.vaadin.flow.theme.lumo.Lumo;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.OrderedProduct;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Orders;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Product;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.User;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.*;
-import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.ButtonSwitchTheme;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.NotificationError;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.frontend.components.SubmitOrderDialog;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,7 +29,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.*;
 
 /**
- * TODO: Leere adressliste Smiley!
+ * Die Klasse ShoppingCartView ist der Warenkorb eines Nutzers.
+ *
+ * @author Ivonne Kneißig & Ramon Günther
  */
 @Route(value = "warenkorb", layout = MainLayout.class)
 @PageTitle("R & I | Warenkorb")
@@ -46,7 +44,7 @@ public class ShoppingCartView extends VerticalLayout {
     private int temp;
     private double gesamtbetrag;
     private Button updateAmountButton;
-    private boolean checkOperation; //boolean um herauszufinden ob gespeichert oder abgebrochen wurde beim Ändern der menge
+    private boolean checkOperation; //boolean um herauszufinden, ob gespeichert oder abgebrochen wurde beim Ändern der Menge
 
     public ShoppingCartView(ProductService productService,
                             OrderedProductService orderedProductService,
@@ -69,8 +67,8 @@ public class ShoppingCartView extends VerticalLayout {
 
         orderedProductGrid.addColumn(orders1 -> orders1.getId().getProduct().getName()).setHeader("Produktname");
         orderedProductGrid.addColumn(OrderedProduct::getAmount).setHeader(createAmountCellHeader());
-        orderedProductGrid.addColumn(price -> price.getId().getProduct().getPrice() + " €").setHeader("Einzelpreis");
-        orderedProductGrid.addColumn(price -> price.getId().getProduct().getPrice() * price.getAmount() + " €").setHeader("Gesamtpreis");
+        orderedProductGrid.addColumn(price -> price.getId().getProduct().getPrice() + " €").setHeader("Einzelpreis").setSortable(true);
+        orderedProductGrid.addColumn(totalPrice -> totalPrice.getId().getProduct().getPrice() * totalPrice.getAmount() + " €").setHeader("Gesamtpreis").setSortable(true);
 
         orderedProductGrid.getColumns().get(0).setWidth("300px");
 
@@ -93,7 +91,6 @@ public class ShoppingCartView extends VerticalLayout {
                 product.setInStock(product.getInStock() + item.getAmount());
                 productService.saveProduct(product);
                 orderedProductService.deleteOrderedProductById(item, order);
-//                UI.getCurrent().getPage().reload();
                 orderedProductGrid.getDataProvider().refreshAll();
                 gesamtbetrag = 0;
                 for (OrderedProduct orderedProduct : orderedProducts) {
@@ -102,17 +99,17 @@ public class ShoppingCartView extends VerticalLayout {
                 orderedProductGrid.getColumns().get(0).setFooter(
                         "Artikel: " + orderedProducts.size() + "       |       Gesamtbetrag: " + gesamtbetrag + "€"
                 );
-                if(orderedProducts.isEmpty()){
+                if (orderedProducts.isEmpty()) {
                     orderButton.setVisible(false);
                 }
             });
             return deleteOrderedProductButton;
         });
 
-        orderedProductGrid.addItemDoubleClickListener(e -> {
-            UI.getCurrent().navigate(ProductDetailsView.class, new RouteParameters(
-                    new RouteParam("productId", e.getItem().getId().getProduct().getId().toString())));
-        });
+        orderedProductGrid.addItemDoubleClickListener(e ->
+                UI.getCurrent().navigate(ProductDetailsView.class, new RouteParameters(
+                new RouteParam("productId", e.getItem().getId().getProduct().getId().toString())))
+        );
 
         //Binder spaß
 
@@ -210,7 +207,7 @@ public class ShoppingCartView extends VerticalLayout {
         orderButton = new Button("Bestellen");
         orderButton.setVisible(false);
 
-        if(!orderedProducts.isEmpty()){
+        if (!orderedProducts.isEmpty()) {
             orderButton.setVisible(true);
         }
 
@@ -218,9 +215,7 @@ public class ShoppingCartView extends VerticalLayout {
 
         SubmitOrderDialog submitOrderDialog = new SubmitOrderDialog(userService, addressService, ordersService, gesamtbetrag);
 
-        orderButton.addClickListener(e ->{
-            submitOrderDialog.open();
-        });
+        orderButton.addClickListener(e -> submitOrderDialog.open());
 
         Div shoppingCartLayout = new Div();
         shoppingCartLayout.setClassName("shopping-cart-view-shopping_cart_layout");
@@ -228,6 +223,11 @@ public class ShoppingCartView extends VerticalLayout {
         add(shoppingCartLayout);
     }
 
+    /**
+     * Die Methode erstellt den Stift-Button für die Spalte Menge.
+     *
+     * @return Name der Spalte und Button
+     */
     private Component createAmountCellHeader() {
         Span span = new Span("Menge");
         updateAmountButton = new Button(VaadinIcon.PENCIL.create());

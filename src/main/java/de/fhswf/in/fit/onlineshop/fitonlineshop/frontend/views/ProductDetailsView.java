@@ -24,6 +24,12 @@ import org.vaadin.addons.badge.Badge;
 
 import java.util.List;
 
+/**
+ * Die Klasse ProductDetailsView stellt die Detailansicht eines Produktes zur
+ * Verfügung.
+ *
+ * @author Ivonne Kneißig & Ramon Günther
+ */
 @Route(value = "produktDetails/productId/:productId", layout = MainLayout.class)
 @PageTitle("R & I | Produkt Details")
 @CssImport("/themes/onlineshop/views/product-details-view.css")
@@ -196,6 +202,12 @@ public class ProductDetailsView extends HorizontalLayout implements BeforeEnterO
         add(imageAndButtonLayout, productDetailsLayout, addToCartButton);
     }
 
+    /**
+     * Die Methode wird benutzt, um die empfangene Produkt Id als Routeparameter, für
+     * die Klasse zu speichern. Der Konstruktor wurde hier noch nicht ausgelöst.
+     *
+     * @param beforeEnterEvent beforeEnterEvent
+     */
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         if (beforeEnterEvent.getRouteParameters().get("productId").isPresent()) {
@@ -203,27 +215,15 @@ public class ProductDetailsView extends HorizontalLayout implements BeforeEnterO
         }
     }
 
+    /**
+     * Ab jetzt wir die View erst wirklich erstellt, da die Id des Produktes ab jetzt bekannt ist
+     * und der Konstruktor schon ausgelöst wurde.
+     *
+     * @param afterNavigationEvent afterNavigationEvent
+     */
     @Override
     public void afterNavigation(AfterNavigationEvent afterNavigationEvent) {
         product = productService.getProductById(id);
         createView();
     }
-
-//    private Image getNext(Image image) {
-//        int idx = imageList.indexOf(image);
-//        System.out.println(idx);
-//        if (idx < 0 || idx+1 == imageList.size()){
-//            return null;
-//        }
-//        return imageList.get(idx + 1);
-//    }
-//
-//    private Image getPrevious(Image image) {
-//        int idx = imageList.indexOf(image);
-//        System.out.println(idx);
-//        if (idx <= 0) {
-//            return null;
-//        }
-//        return imageList.get(idx - 1);
-//    }
 }

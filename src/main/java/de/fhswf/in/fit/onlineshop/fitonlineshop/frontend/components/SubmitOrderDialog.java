@@ -28,7 +28,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Die Klasse SubmitOrderDialog erstellt einen Dialog, um vom Warenkorb aus
+ * eine Bestellung mit den notwendigen Informationen, abzusenden.
+ *
+ * @author Ivonne Kneißig & Ramon Günther
+ */
 @CssImport("/themes/onlineshop/components/submit-order-dialog.css")
 public class SubmitOrderDialog extends Dialog {
 

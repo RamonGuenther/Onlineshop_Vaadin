@@ -19,7 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Diese Seite ist eher die Bestellhistory
+ * Die Klasse OrdersView enthält alle Informationen zu abgesendeten Bestellungen
+ * des jeweiligen Nutzers.
+ *
+ * @author Ivonne Kneißig & Ramon Günther
  */
 @Route(value = "bestellungen", layout = MainLayout.class)
 @PageTitle("R & I | Bestellungen")
@@ -45,7 +48,6 @@ public class OrdersView extends VerticalLayout {
     private List<OrderedProduct> orderedProducts;
     private double gesamtbetrag;
 
-    //TODO SQL befehl der alle Orders eines benutzers findet die bestellung sind , und einen Befehl um den Warenkorb zu finden!
     public OrdersView(OrdersService ordersService, UserService userService) {
 
         H1 ordersTitle = new H1("Bestellungen");
@@ -55,8 +57,8 @@ public class OrdersView extends VerticalLayout {
 
         List<Orders> orders = ordersService.findOrdersByUser(user);
 
-        if(orders.isEmpty()){
-            add(ordersTitle,new Label("Es wurden keine Bestellungen gefunden!"));
+        if (orders.isEmpty()) {
+            add(ordersTitle, new Label("Es wurden keine Bestellungen gefunden!"));
             return;
         }
 
@@ -175,9 +177,7 @@ public class OrdersView extends VerticalLayout {
             );
 
         });
-
         orderNumberSelect.setValue(ordersId.get(0));
-
     }
 }
 

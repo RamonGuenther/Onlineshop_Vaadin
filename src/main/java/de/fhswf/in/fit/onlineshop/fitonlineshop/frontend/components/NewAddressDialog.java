@@ -14,6 +14,12 @@ import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.AddressService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+/**
+ * Die Klasse NewAddressDialog erstellt einen Dialog zum hinzufügen einer
+ * neuen Adresse.
+ *
+ * @author Ivonne Kneißig & Ramon Günther
+ */
 @CssImport("/themes/onlineshop/components/new-address-dialog.css")
 public class NewAddressDialog extends Dialog {
 

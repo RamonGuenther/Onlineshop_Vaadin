@@ -7,11 +7,15 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Address;
-import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.User;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.AddressService;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.service.UserService;
-import org.springframework.security.core.context.SecurityContextHolder;
 
+/**
+ * Die Klasse ChangeAddressDialog erstellt einen Dialog zum Ändern der Informationen
+ * einer Adresse.
+ *
+ * @author Ivonne Kneißig & Ramon Günther
+ */
 public class ChangeAddressDialog extends Dialog {
 
     private final AddressService addressService;
