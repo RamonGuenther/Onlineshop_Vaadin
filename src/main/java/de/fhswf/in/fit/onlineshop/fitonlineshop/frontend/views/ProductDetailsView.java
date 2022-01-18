@@ -30,7 +30,7 @@ import java.util.List;
  *
  * @author Ivonne Kneißig & Ramon Günther
  */
-@Route(value = "produktDetails/productId/:productId", layout = MainLayout.class)
+@Route(value = "produktDetails/:productId", layout = MainLayout.class)
 @PageTitle("R & I | Produkt Details")
 @CssImport("/themes/onlineshop/views/product-details-view.css")
 public class ProductDetailsView extends HorizontalLayout implements BeforeEnterObserver, AfterNavigationObserver {

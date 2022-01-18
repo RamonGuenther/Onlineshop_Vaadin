@@ -130,6 +130,9 @@ public class OrdersView extends VerticalLayout {
 
         orderedProductGrid.addColumn(price -> price.getId().getProduct().getPrice() * price.getAmount() + " €").setHeader("Gesamtpreis");
 
+        orderedProductGrid.getColumns().get(0).setWidth("300px");
+
+
 
         add(formLayout, orderedProductGrid);
 

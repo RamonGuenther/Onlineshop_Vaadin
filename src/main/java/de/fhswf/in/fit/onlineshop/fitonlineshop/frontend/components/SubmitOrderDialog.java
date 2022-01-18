@@ -7,13 +7,10 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextArea;
-import com.vaadin.flow.router.RouterLink;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Address;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.Orders;
 import de.fhswf.in.fit.onlineshop.fitonlineshop.backend.entities.User;
@@ -40,7 +37,6 @@ public class SubmitOrderDialog extends Dialog {
     private Label billingAddressStreet;
     private Label deliveryAddressStreet;
     private TextArea orderComment;
-    private FormLayout formLayout;
     private Label billingAddressPlace;
     private Label billingAddressPhoneNumber;
     private Label billingAddressMail;
@@ -106,7 +102,7 @@ public class SubmitOrderDialog extends Dialog {
         selectDeliveryAddress.setLabel("Lieferadresse auswählen");
         selectDeliveryAddress.setItems(streetList);
 
-        formLayout = new FormLayout();
+        FormLayout formLayout = new FormLayout();
         formLayout.setClassName("submit-order-dialog-formlayout");
 
 
@@ -210,7 +206,7 @@ public class SubmitOrderDialog extends Dialog {
 
         cancelButton.addClickListener(e -> close());
 
-        add(closeButton,formLayout, buttonLayout);
+        add(closeButton, formLayout, buttonLayout);
 
     }
 }

@@ -80,7 +80,7 @@ public class ShoppingCartView extends VerticalLayout {
 
 
         orderedProductGrid.getColumns().get(0).setFooter(
-                "Artikel: " + orderedProducts.size() + "       |       Gesamtbetrag: " + gesamtbetrag + "€"
+                "Artikel: " + getArticleAmount(orderedProducts) + "       |       Gesamtbetrag: " + gesamtbetrag + "€"
         );
 
         orderedProductGrid.addComponentColumn(item -> {
@@ -97,7 +97,7 @@ public class ShoppingCartView extends VerticalLayout {
                     gesamtbetrag = orderedProduct.getId().getProduct().getPrice() * orderedProduct.getAmount() + gesamtbetrag;
                 }
                 orderedProductGrid.getColumns().get(0).setFooter(
-                        "Artikel: " + orderedProducts.size() + "       |       Gesamtbetrag: " + gesamtbetrag + "€"
+                        "Artikel: " + getArticleAmount(orderedProducts) + "       |       Gesamtbetrag: " + gesamtbetrag + "€"
                 );
                 if (orderedProducts.isEmpty()) {
                     orderButton.setVisible(false);
@@ -215,7 +215,7 @@ public class ShoppingCartView extends VerticalLayout {
 
         SubmitOrderDialog submitOrderDialog = new SubmitOrderDialog(userService, addressService, ordersService, gesamtbetrag);
 
-        orderButton.addClickListener(e -> submitOrderDialog.open());
+        orderButton.addClickListener(e -> submitOrderDialog.open()); //TODO Hier wird der Dialog geöffnet
 
         Div shoppingCartLayout = new Div();
         shoppingCartLayout.setClassName("shopping-cart-view-shopping_cart_layout");
@@ -239,5 +239,12 @@ public class ShoppingCartView extends VerticalLayout {
         return layout;
     }
 
+    private Integer getArticleAmount(List<OrderedProduct> productList){
+        int amount = 0 ;
+        for(OrderedProduct orderedProduct : productList){
+            amount += orderedProduct.getAmount();
+        }
+        return amount;
+    }
 
 }
